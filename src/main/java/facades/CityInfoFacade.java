@@ -46,7 +46,7 @@ public class CityInfoFacade {
         return city;
     }
 
-    public void editCityInfo(CityInfo ci) {
+    public CityInfo editCityInfo(CityInfo ci) {
         EntityManager em = getEntityManager();
         CityInfo cityInfo = em.find(CityInfo.class, ci.getId());
 
@@ -56,6 +56,7 @@ public class CityInfoFacade {
         em.merge(cityInfo);
         em.getTransaction().commit();
         em.close();
+        return cityInfo;
     }
 
     public CityInfo deleteCity(int id) {

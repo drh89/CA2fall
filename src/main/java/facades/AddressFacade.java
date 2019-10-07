@@ -46,7 +46,7 @@ public class AddressFacade {
         return address;
     }
   
-    public void editAddress(Address a){
+    public Address editAddress(Address a){
         EntityManager em = getEntityManager();
         
         Address address = em.find(Address.class, a.getId());
@@ -56,7 +56,7 @@ public class AddressFacade {
         em.merge(address);
         em.getTransaction().commit();
         em.close();
-        
+        return address;
     }
     
         public Address deleteAddress(int id){

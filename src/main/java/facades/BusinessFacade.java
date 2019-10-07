@@ -7,6 +7,7 @@ package facades;
 
 import entities.Address;
 import entities.CityInfo;
+import entities.Hobby;
 import entities.Person;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -51,8 +52,8 @@ public class BusinessFacade {
     }
 
     public Person addPerson(Person p) {
-        List<Address> allAddress = af.getAllAddress();
-        List<CityInfo> allCityInfos = cif.getAllCityInfos();
+        List<Address> allAddress = getAllAddress();
+        List<CityInfo> allCityInfos = getAllCityInfos();
         Person person = pf.addPerson(new Person(p.getEmail(), p.getFirstName(), p.getLastName()));
 
         for (Address a : allAddress) {
@@ -79,6 +80,21 @@ public class BusinessFacade {
         person.getAddress().setCityInfo(p.getAddress().getCityInfo());
         return editPerson(person);
     }
+    
+    public Person addHobbyToPerson(Person p, Hobby h){
+        List<Hobby> allHobbies = getAllHobbies();
+        
+        for (Hobby hobby : allHobbies) {
+            if(hobby.getName().equalsIgnoreCase(h.getName())){
+                p.getHobbies().add(hobby);
+                p = editPerson(p);
+                return p;
+            }
+        }
+        p.getHobbies().add(h);
+        p = editPerson(p);
+        return p;
+    }
 
     public Person editPerson(Person p) {
         return pf.editPerson(p);
@@ -86,5 +102,44 @@ public class BusinessFacade {
 
     public Person getPerson(int id) {
         return pf.getPerson(id);
+    }
+    public Person deletePerson(int id){
+        return pf.deletePerson(id);
+    }
+    public List<Address> getAllAddress(){
+        return af.getAllAddress();
+    }
+    public Address addAddress(Address a){
+        return af.addAddress(a);
+    }
+    public Address editAddress(Address a){
+         return af.editAddress(a);
+    }
+    public Address deleteAddress(int id){
+        return af.deleteAddress(id);
+    }
+    public List<CityInfo> getAllCityInfos(){
+        return cif.getAllCityInfos();
+    }
+    public CityInfo addCityInfo(CityInfo ci){
+        return cif.addCity(ci);
+    }
+    public CityInfo ediCityInfo(CityInfo ci){
+        return cif.editCityInfo(ci);
+    }
+    public CityInfo deleteCityInfo(int id){
+        return cif.deleteCity(id);
+    }
+    public List<Hobby> getAllHobbies(){
+        return hf.getAllHobbies();
+    }
+    public Hobby addHobby(Hobby h){
+        return hf.addHobby(h);
+    }
+    public Hobby editHobby(Hobby h){
+        return hf.editHobby(h);
+    }
+    public Hobby deleteHobby(int id){
+        return hf.deleteHobby(id);
     }
 }

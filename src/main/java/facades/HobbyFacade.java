@@ -40,6 +40,38 @@ public class HobbyFacade {
         return emf.createEntityManager();
     }
     
+    public Hobby addHobby(Hobby h){
+        EntityManager em = getEntityManager();
+
+        em.getTransaction().begin();
+        em.persist(h);
+        em.getTransaction().commit();
+        em.close();
+        return h;
+    }
+    
+    public Hobby editHobby(Hobby h){
+        EntityManager em = getEntityManager();
+        
+        Hobby hobby = em.find(Hobby.class, h.getId());
+        hobby.setName(h.getName());
+        hobby.setDescription(h.getDescription());
+        hobby.setPersons(h.getPersons());
+        return hobby;
+    }
+    
+    public Hobby deleteHobby(int id){
+        EntityManager em = getEntityManager();
+        
+        Hobby h = em.find(Hobby.class, id);
+        
+        em.getTransaction().begin();
+        em.remove(h);
+        em.getTransaction().commit();
+        em.close();
+        
+        return h;
+    }
     public List<Hobby> getAllHobbies(){
         EntityManager em = getEntityManager();
         
