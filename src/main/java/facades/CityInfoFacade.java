@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package facades;
 
 import entities.CityInfo;
@@ -13,9 +8,10 @@ import javax.persistence.TypedQuery;
 
 /**
  *
- * @author Dennis
+ * @author Dennis & Christian
  */
 public class CityInfoFacade {
+
     private static CityInfoFacade instance;
     private static EntityManagerFactory emf;
 
@@ -39,22 +35,45 @@ public class CityInfoFacade {
     private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
-    
-    public void editCityInfo(CityInfo ci){
+
+    public CityInfo addCity(CityInfo city) {
+        EntityManager em = getEntityManager();
+
+        em.getTransaction().begin();
+        em.persist(city);
+        em.getTransaction().commit();
+        em.close();
+        return city;
+    }
+
+    public void editCityInfo(CityInfo ci) {
         EntityManager em = getEntityManager();
         CityInfo cityInfo = em.find(CityInfo.class, ci.getId());
-        
+
         cityInfo.setAddresss(ci.getAddresss());
-        
+
         em.getTransaction().begin();
         em.merge(cityInfo);
         em.getTransaction().commit();
         em.close();
     }
-    
-    public List<CityInfo> getAllCityInfos(){
+
+    public CityInfo deleteCity(int id) {
         EntityManager em = getEntityManager();
-        
+
+        CityInfo city = em.find(CityInfo.class, id);
+
+        em.getTransaction().begin();
+        em.remove(city);
+        em.getTransaction().commit();
+        em.close();
+
+        return city;
+    }
+
+    public List<CityInfo> getAllCityInfos() {
+        EntityManager em = getEntityManager();
+
         TypedQuery tq = em.createNamedQuery("CityInfo.all", CityInfo.class);
         return tq.getResultList();
     }

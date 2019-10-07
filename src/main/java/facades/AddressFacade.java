@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package facades;
 
 import entities.Address;
@@ -13,7 +8,7 @@ import javax.persistence.TypedQuery;
 
 /**
  *
- * @author Dennis
+ * @author Dennis & Christian
  */
 public class AddressFacade {
 
@@ -40,6 +35,17 @@ public class AddressFacade {
     private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
+
+    public Address addAddress(Address address) {
+        EntityManager em = getEntityManager();
+
+        em.getTransaction().begin();
+        em.persist(address);
+        em.getTransaction().commit();
+        em.close();
+        return address;
+    }
+  
     public void editAddress(Address a){
         EntityManager em = getEntityManager();
         
@@ -52,6 +58,20 @@ public class AddressFacade {
         em.close();
         
     }
+    
+        public Address deleteAddress(int id){
+        EntityManager em = getEntityManager();
+        
+        Address address = em.find(Address.class, id);
+        
+        em.getTransaction().begin();
+        em.remove(address);
+        em.getTransaction().commit();
+        em.close();
+        
+        return address;
+    }
+        
     public List<Address> getAllAddress(){
         EntityManager em = getEntityManager();
         
