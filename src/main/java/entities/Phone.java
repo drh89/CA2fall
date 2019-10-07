@@ -17,7 +17,7 @@ import javax.persistence.Table;
 
 /**
  *
- * @author Dennis
+ * @author Christian & Dennis
  */
 @Entity
 @Table(name = "Phone")
