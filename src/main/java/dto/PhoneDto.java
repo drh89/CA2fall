@@ -14,7 +14,7 @@ public class PhoneDto {
     private int id;
     private String number;
     private String description;
-    private Person person;
+    private PersonDto person;
     private ArrayList<PhoneDto> all;
 
     public PhoneDto() {
@@ -30,7 +30,7 @@ public class PhoneDto {
         this.id = p.getId();
         this.number = p.getNumber();
         this.description = p.getDescription();
-        this.person = p.getPerson();
+        this.person = new PersonDto(p.getPerson());
     }
 
     public PhoneDto(List<Phone> p) {
@@ -64,11 +64,11 @@ public class PhoneDto {
         this.description = description;
     }
 
-    public Person getPerson() {
+    public PersonDto getPerson() {
         return person;
     }
 
-    public void setPerson(Person person) {
+    public void setPerson(PersonDto person) {
         this.person = person;
     }
 

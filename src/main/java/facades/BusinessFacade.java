@@ -5,6 +5,9 @@
  */
 package facades;
 
+import dto.AddressDto;
+import dto.CityInfoDto;
+import dto.PersonDto;
 import entities.Address;
 import entities.CityInfo;
 import entities.Hobby;
@@ -51,95 +54,74 @@ public class BusinessFacade {
         return emf.createEntityManager();
     }
 
-    public Person addPerson(Person p) {
-        List<Address> allAddress = getAllAddress();
-        List<CityInfo> allCityInfos = getAllCityInfos();
-        Person person = pf.addPerson(new Person(p.getEmail(), p.getFirstName(), p.getLastName()));
+    public PersonDto addPerson(PersonDto p) {
 
-        for (Address a : allAddress) {
-            if (a.getStreet().equalsIgnoreCase(p.getAddress().getStreet()) && a.getHouseNumber().equalsIgnoreCase(p.getAddress().getHouseNumber())
-                    && a.getStory().equalsIgnoreCase(p.getAddress().getStory())) {
-
-                person.setAddress(a);
-                return editPerson(person);
-            }
-        }
+        PersonDto person = pf.addPerson(p);
 
         person.setAddress(p.getAddress());
 
-        for (CityInfo ci : allCityInfos) {
-            if (ci.getCity().equalsIgnoreCase(p.getAddress().getCityInfo().getCity())
-                    && ci.getZipcode() == p.getAddress().getCityInfo().getZipcode()) {
+        person.getAddress().setCityInfo(new CityInfoDto(p.getAddress().getCityInfo().getZipcode(), p.getAddress().getCityInfo().getCity()));
 
-                person.getAddress().setCityInfo(ci);
-
-                return editPerson(person);
-            }
-        }
-
-        person.getAddress().setCityInfo(p.getAddress().getCityInfo());
         return editPerson(person);
     }
-    
-    public Person addHobbyToPerson(Person p, Hobby h){
-        List<Hobby> allHobbies = getAllHobbies();
-        
-        for (Hobby hobby : allHobbies) {
-            if(hobby.getName().equalsIgnoreCase(h.getName())){
-                p.getHobbies().add(hobby);
-                p = editPerson(p);
-                return p;
-            }
-        }
-        p.getHobbies().add(h);
-        p = editPerson(p);
-        return p;
-    }
 
-    public Person editPerson(Person p) {
+
+    public PersonDto editPerson(PersonDto p) {
         return pf.editPerson(p);
     }
 
-    public Person getPerson(int id) {
-        return pf.getPerson(id);
-    }
-    public Person deletePerson(int id){
+//    public Person getPerson(int id) {
+//        return pf.getPerson(id);
+//    }
+    public Person deletePerson(int id) {
         return pf.deletePerson(id);
     }
-    public List<Address> getAllAddress(){
+
+    public List<Address> getAllAddress() {
         return af.getAllAddress();
     }
-    public Address addAddress(Address a){
+
+    public Address addAddress(Address a) {
         return af.addAddress(a);
     }
-    public Address editAddress(Address a){
-         return af.editAddress(a);
+
+    public Address editAddress(Address a) {
+        return af.editAddress(a);
     }
-    public Address deleteAddress(int id){
+
+    public Address deleteAddress(int id) {
         return af.deleteAddress(id);
     }
-    public List<CityInfo> getAllCityInfos(){
+
+    public List<CityInfo> getAllCityInfos() {
         return cif.getAllCityInfos();
     }
-    public CityInfo addCityInfo(CityInfo ci){
+
+    public CityInfo addCityInfo(CityInfo ci) {
         return cif.addCity(ci);
     }
-    public CityInfo ediCityInfo(CityInfo ci){
+
+    public CityInfo ediCityInfo(CityInfo ci) {
         return cif.editCityInfo(ci);
     }
-    public CityInfo deleteCityInfo(int id){
+
+    public CityInfo deleteCityInfo(int id) {
         return cif.deleteCity(id);
     }
-    public List<Hobby> getAllHobbies(){
+
+    public List<Hobby> getAllHobbies() {
         return hf.getAllHobbies();
     }
-    public Hobby addHobby(Hobby h){
+
+    public Hobby addHobby(Hobby h) {
         return hf.addHobby(h);
     }
-    public Hobby editHobby(Hobby h){
+
+    public Hobby editHobby(Hobby h) {
         return hf.editHobby(h);
     }
-    public Hobby deleteHobby(int id){
+
+    public Hobby deleteHobby(int id) {
         return hf.deleteHobby(id);
     }
 }

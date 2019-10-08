@@ -28,12 +28,12 @@ public class PersonDto {
         this.lastName = lastName;
         this.email = email;
         
-        hobbies = new ArrayList();
-        hobbies.add(new HobbyDto(new Hobby(hName, hDesc)));
-        phones = new ArrayList();
-        phones.add(new PhoneDto(new Phone(pNumber, pDesc)));
-        address = new AddressDto(new Address(streetName, houseNumber, story));
-        address.setCityInfo(new CityInfoDto(new CityInfo(zipcode, city)));
+        this.hobbies = new ArrayList();
+        hobbies.add(new HobbyDto(hName, hDesc));
+        this.phones = new ArrayList();
+        phones.add(new PhoneDto(pNumber, pDesc));
+        this.address = new AddressDto(streetName, houseNumber, story, zipcode, city);
+        address.setCityInfo(new CityInfoDto(zipcode, city));
 
     }
 
@@ -44,7 +44,7 @@ public class PersonDto {
         this.lastName = p.getLastName();
         this.hobbies = new HobbyDto(p.getHobbies()).getAll();
         this.phones = new PhoneDto(p.getPhones()).getAll();
-        this.address = new AddressDto( p.getAddress());
+//        this.address = new AddressDto( p.getAddress());
     }
 
     public PersonDto(List<Person> p) {

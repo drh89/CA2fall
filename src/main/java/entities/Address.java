@@ -28,7 +28,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Address")
 @NamedQueries({
-    @NamedQuery(name = "Address.all", query = "SELECT a FROM Address a")})
+    @NamedQuery(name = "Address.all", query = "SELECT a FROM Address a"),
+    @NamedQuery(name = "Address.check", 
+                query = "SELECT a FROM Address a WHERE a.street = :street AND a.houseNumber = :houseNumber AND a.story = :story")
+})
 public class Address implements Serializable {
 
     private static final long serialVersionUID = 1L;

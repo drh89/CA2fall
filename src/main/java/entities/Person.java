@@ -18,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -27,6 +28,9 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Person")
+@NamedQueries({
+    
+})
 public class Person implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -34,13 +38,13 @@ public class Person implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-
-    @Column(name = "email")
-    private String email;
     @Column(name = "firstName")
     private String firstName;
     @Column(name = "lastName")
     private String lastName;
+
+    @Column(name = "email")
+    private String email;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinTable(name = "PersonHasHobby", joinColumns = @JoinColumn(name = "personId"),
@@ -58,10 +62,11 @@ public class Person implements Serializable {
     public Person() {
     }
 
-    public Person(String email, String firstName, String lastName) {
-        this.email = email;
+    public Person(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.email = email;
+
     }
 
     public String getEmail() {

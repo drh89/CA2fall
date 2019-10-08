@@ -25,7 +25,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "CityInfo")
 @NamedQueries({
-    @NamedQuery(name = "CityInfo.all", query = "SELECT ci FROM CityInfo ci")
+    @NamedQuery(name = "CityInfo.all", query = "SELECT ci FROM CityInfo ci"),
+    @NamedQuery(name = "CityInfo.check", query = "SELECT ci FROM CityInfo ci WHERE ci.zipcode = :zipcode AND ci.city = :city")
 })
 public class CityInfo implements Serializable {
 
