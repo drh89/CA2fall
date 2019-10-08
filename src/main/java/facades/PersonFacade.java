@@ -69,9 +69,9 @@ public class PersonFacade {
     public PersonDto addPerson(PersonDto pDto) {
         EntityManager em = getEntityManager();
         Person person = new Person(pDto.getFirstName(), pDto.getLastName(), pDto.getEmail());
-        person.setAddress(pDto.getAddress());
-        person.setPhones(pDto.getPhones());
-        person.setHobbies(pDto.getHobbies());
+        person.addAdress(pDto.getAddress());
+        person.setPhones(person.addToPhones(pDto.getPhones()));
+        person.setHobbies(person.addToHobbies(pDto.getHobbies()));
         
         em.getTransaction().begin();
         em.persist(person);
@@ -88,9 +88,13 @@ public class PersonFacade {
         person.setFirstName(p.getFirstName());
         person.setLastName(p.getLastName());
         person.setEmail(p.getEmail());
-        person.setAddress(p.getAddress());
-        person.setHobbies(p.getHobbies());
-        person.setPhones(p.getPhones());
+//        person.setAddress(p.getAddress());
+        person.setAddress(person.addAdress(p.getAddress()));
+        
+//        person.setHobbies(p.getHobbies());
+        person.setHobbies(person.addToHobbies(p.getHobbies()));
+        
+        person.setPhones(person.addToPhones(p.getPhones()));
         
         em.getTransaction().begin();
         em.merge(person);

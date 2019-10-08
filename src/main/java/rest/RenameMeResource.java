@@ -2,6 +2,7 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import dto.PersonDto;
 import entities.Address;
 import entities.CityInfo;
 import entities.Person;
@@ -47,26 +48,26 @@ public class RenameMeResource {
 //        return "{\"count\":" + count + "}";  //Done manually so no need for a DTO
 //    }
 
-    public static void main(String[] args) {
-        
-        Person first = new Person("test@test.dk", "Hanne", "Jensen");
-        first.setAddress(new Address("Hjalmersgade", "22", "2tv"));
-        first.getAddress().setCityInfo(new CityInfo(2200, "Copenhagen"));
-        first = FACADE.addPerson(first);
-        System.out.println(first.getId());
-        
-        Person second = new Person("est@test.dk", "Hans", "Jensen");
-        second.setAddress(new Address("Hjalmersgade", "22", "2tv"));
-        second.getAddress().setCityInfo(new CityInfo(2200, "Copenhagen"));
-        second = FACADE.addPerson(second);
-        System.out.println(second.getAddress().getStreet() + " " + second.getAddress().getCityInfo().getZipcode());
-
-        Person third = new Person("test2@test.dk", "Bo","Boesen");
-        third.setAddress(new Address("Bagergade", "12", "0th"));
-        third.getAddress().setCityInfo(new CityInfo(2200, "Copenhagen"));
-        third = FACADE.addPerson(third);
-//        System.out.println(FACADE.deletePerson(1));
-        
-    }
+//    public static void main(String[] args) {
+//        
+//        PersonDto first = new PersonDto("test@test.dk", "Hanne", "Jensen");
+//        first.setAddress(new Address("Hjalmersgade", "22", "2tv"));
+//        first.getAddress().setCityInfo(new CityInfo(2200, "Copenhagen"));
+//        first = FACADE.addPerson(first);
+//        System.out.println(first.getId());
+//        
+//        Person second = new Person("est@test.dk", "Hans", "Jensen");
+//        second.setAddress(new Address("Hjalmersgade", "22", "2tv"));
+//        second.getAddress().setCityInfo(new CityInfo(2200, "Copenhagen"));
+//        second = FACADE.addPerson(second);
+//        System.out.println(second.getAddress().getStreet() + " " + second.getAddress().getCityInfo().getZipcode());
+//
+//        Person third = new Person("test2@test.dk", "Bo","Boesen");
+//        third.setAddress(new Address("Bagergade", "12", "0th"));
+//        third.getAddress().setCityInfo(new CityInfo(2200, "Copenhagen"));
+//        third = FACADE.addPerson(third);
+////        System.out.println(FACADE.deletePerson(1));
+//        
+//    }
 
 }

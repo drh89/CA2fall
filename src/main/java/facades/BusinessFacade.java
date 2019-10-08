@@ -6,6 +6,9 @@
 package facades;
 
 import dto.AddressDto;
+import dto.CityInfoDto;
+import dto.HobbyDto;
+import dto.PersonDto;
 import entities.Address;
 import entities.CityInfo;
 import entities.Hobby;
@@ -52,95 +55,95 @@ public class BusinessFacade {
         return emf.createEntityManager();
     }
 
-    public Person addPerson(Person p) {
-        List<Address> allAddress = getAllAddress();
-        List<CityInfo> allCityInfos = getAllCityInfos();
-        Person person = pf.addPerson(new Person(p.getEmail(), p.getFirstName(), p.getLastName()));
+//    public Person addPerson(Person p) {
+//        List<Address> allAddress = getAllAddress();
+//        List<CityInfo> allCityInfos = getAllCityInfos();
+//        Person person = pf.addPerson(new Person(p.getEmail(), p.getFirstName(), p.getLastName()));
+//
+//        for (Address a : allAddress) {
+//            if (a.getStreet().equalsIgnoreCase(p.getAddress().getStreet()) && a.getHouseNumber().equalsIgnoreCase(p.getAddress().getHouseNumber())
+//                    && a.getStory().equalsIgnoreCase(p.getAddress().getStory())) {
+//
+//                person.setAddress(a);
+//                return editPerson(person);
+//            }
+//        }
+//
+//        person.setAddress(p.getAddress());
+//
+//        for (CityInfo ci : allCityInfos) {
+//            if (ci.getCity().equalsIgnoreCase(p.getAddress().getCityInfo().getCity())
+//                    && ci.getZipcode() == p.getAddress().getCityInfo().getZipcode()) {
+//
+//                person.getAddress().setCityInfo(ci);
+//
+//                return editPerson(person);
+//            }
+//        }
+//
+//        person.getAddress().setCityInfo(p.getAddress().getCityInfo());
+//        return editPerson(person);
+//    }
+//    
+//    public Person addHobbyToPerson(Person p, Hobby h){
+//        List<Hobby> allHobbies = getAllHobbies();
+//        
+//        for (Hobby hobby : allHobbies) {
+//            if(hobby.getName().equalsIgnoreCase(h.getName())){
+//                p.getHobbies().add(hobby);
+//                p = editPerson(p);
+//                return p;
+//            }
+//        }
+//        p.getHobbies().add(h);
+//        p = editPerson(p);
+//        return p;
+//    }
 
-        for (Address a : allAddress) {
-            if (a.getStreet().equalsIgnoreCase(p.getAddress().getStreet()) && a.getHouseNumber().equalsIgnoreCase(p.getAddress().getHouseNumber())
-                    && a.getStory().equalsIgnoreCase(p.getAddress().getStory())) {
-
-                person.setAddress(a);
-                return editPerson(person);
-            }
-        }
-
-        person.setAddress(p.getAddress());
-
-        for (CityInfo ci : allCityInfos) {
-            if (ci.getCity().equalsIgnoreCase(p.getAddress().getCityInfo().getCity())
-                    && ci.getZipcode() == p.getAddress().getCityInfo().getZipcode()) {
-
-                person.getAddress().setCityInfo(ci);
-
-                return editPerson(person);
-            }
-        }
-
-        person.getAddress().setCityInfo(p.getAddress().getCityInfo());
-        return editPerson(person);
-    }
-    
-    public Person addHobbyToPerson(Person p, Hobby h){
-        List<Hobby> allHobbies = getAllHobbies();
-        
-        for (Hobby hobby : allHobbies) {
-            if(hobby.getName().equalsIgnoreCase(h.getName())){
-                p.getHobbies().add(hobby);
-                p = editPerson(p);
-                return p;
-            }
-        }
-        p.getHobbies().add(h);
-        p = editPerson(p);
-        return p;
-    }
-
-    public Person editPerson(Person p) {
+    public PersonDto editPerson(PersonDto p) {
         return pf.editPerson(p);
     }
 
-    public Person getPerson(int id) {
+    public PersonDto getPerson(int id) {
         return pf.getPerson(id);
     }
-    public Person deletePerson(int id){
+    public PersonDto deletePerson(int id){
         return pf.deletePerson(id);
     }
-    public List<Address> getAllAddress(){
+    public List<AddressDto> getAllAddress(){
         return af.getAllAddress();
     }
     public AddressDto addAddress(AddressDto a){
         return af.addAddress(a);
     }
-    public Address editAddress(Address a){
+    public AddressDto editAddress(AddressDto a){
          return af.editAddress(a);
     }
-    public Address deleteAddress(int id){
+    public AddressDto deleteAddress(int id){
         return af.deleteAddress(id);
     }
-    public List<CityInfo> getAllCityInfos(){
+    public List<CityInfoDto> getAllCityInfos(){
         return cif.getAllCityInfos();
     }
-    public CityInfo addCityInfo(CityInfo ci){
+    public CityInfoDto addCityInfo(CityInfoDto ci){
         return cif.addCity(ci);
     }
-    public CityInfo ediCityInfo(CityInfo ci){
+    public CityInfoDto ediCityInfo(CityInfoDto ci){
         return cif.editCityInfo(ci);
     }
-    public CityInfo deleteCityInfo(int id){
+    public CityInfoDto deleteCityInfo(int id){
         return cif.deleteCity(id);
     }
-    public List<Hobby> getAllHobbies(){
+    public List<HobbyDto> getAllHobbies(){
         return hf.getAllHobbies();
     }
-    public Hobby addHobby(Hobby h){
+    public HobbyDto addHobby(HobbyDto h){
         return hf.addHobby(h);
     }
-    public Hobby editHobby(Hobby h){
+    public HobbyDto editHobby(HobbyDto h){
         return hf.editHobby(h);
     }
-    public Hobby deleteHobby(int id){
+    public HobbyDto deleteHobby(int id){
         return hf.deleteHobby(id);
     }
 }

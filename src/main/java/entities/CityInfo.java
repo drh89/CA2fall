@@ -5,7 +5,9 @@
  */
 package entities;
 
+import dto.AddressDto;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -50,7 +52,16 @@ public class CityInfo implements Serializable {
         this.zipcode = zipcode;
         this.city = city;
     }
-
+    
+    public List<Address> addToAdresss(List<AddressDto> dtoList){
+        List<Address> _addresss = new ArrayList();
+        
+        dtoList.forEach((aDto) -> {
+            addresss.add(new Address(aDto.getStreet(), aDto.getHouseNumber(), aDto.getStory()));
+        });
+        return _addresss;
+    }
+    
     public int getZipcode() {
         return zipcode;
     }

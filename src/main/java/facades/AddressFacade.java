@@ -2,7 +2,6 @@ package facades;
 
 import dto.AddressDto;
 import entities.Address;
-import entities.CityInfo;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -41,7 +40,8 @@ public class AddressFacade {
     public AddressDto addAddress(AddressDto addressDto) {
         EntityManager em = getEntityManager();
         Address address = new Address(addressDto.getStreet(), addressDto.getHouseNumber(), addressDto.getStory());
-        address.setCityInfo(new CityInfo(addressDto.getZipcode(), addressDto.getCity()));
+//        address.setCityInfo(addressDto.getCityInfo());
+        address.setCityInfo(address.addCityInfo(addressDto.getCityInfo()));
 
         em.getTransaction().begin();
         em.persist(address);
@@ -53,11 +53,12 @@ public class AddressFacade {
     public AddressDto editAddress(AddressDto a){
         EntityManager em = getEntityManager();
         
+        
         Address address = em.find(Address.class, a.getId());
         address.setStreet(a.getStreet());
         address.setHouseNumber(a.getHouseNumber());
         address.setStory(a.getStory());
-        address.setPersons(a.getPersons());
+        address.setPersons(address.addToPersons(a.getPersons()));    
         
         em.getTransaction().begin();
         em.merge(address);
@@ -86,4 +87,5 @@ public class AddressFacade {
         return new AddressDto(tq.getResultList()).getAll();
         
     }
+//    public AddressDto addressCheck(AddressDto)
 }

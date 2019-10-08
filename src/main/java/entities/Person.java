@@ -5,7 +5,11 @@
  */
 package entities;
 
+import dto.AddressDto;
+import dto.HobbyDto;
+import dto.PhoneDto;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -40,12 +44,13 @@ public class Person implements Serializable {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "email")
-    private String email;
+    
     @Column(name = "firstName")
     private String firstName;
     @Column(name = "lastName")
     private String lastName;
+    @Column(name = "email")
+    private String email;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinTable(name = "PersonHasHobby", joinColumns = @JoinColumn(name = "personId"),
@@ -63,10 +68,31 @@ public class Person implements Serializable {
     public Person() {
     }
 
-    public Person(String email, String firstName, String lastName) {
-        this.email = email;
+    public Person(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.email = email;
+
+    }
+    
+    public List<Phone> addToPhones(List<PhoneDto> dtoList){
+        List<Phone> _phones = new ArrayList();
+        dtoList.forEach((pDto) ->{
+            _phones.add(new Phone(pDto.getNumber(), pDto.getDescription()));
+        });
+        return _phones;
+    }
+    
+    public List<Hobby> addToHobbies(List<HobbyDto> dtoList){
+        List<Hobby> _hobbies = new ArrayList();
+        dtoList.forEach((hDto) ->{
+            _hobbies.add(new Hobby(hDto.getName(), hDto.getDescription()));
+        });
+        return _hobbies;
+    }
+    
+    public Address addAdress(AddressDto aDto){
+        return new Address(aDto.getStreet(), aDto.getHouseNumber(), aDto.getStory());
     }
 
     public String getEmail() {

@@ -18,21 +18,22 @@ public class PersonDto {
     private String email;
     private String firstName;
     private String lastName;
-    private List<Hobby> hobbies;
-    private List<Phone> phones;
-    private Address address;
+    private List<HobbyDto> hobbies;
+    private List<PhoneDto> phones;
+    private AddressDto address;
     private ArrayList<PersonDto> all;
 
     public PersonDto(String firstName, String lastName, String email, String hName, String hDesc, String pNumber, String pDesc, String streetName, String houseNumber, String story, int zipcode, String city) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.hobbies = new ArrayList();
-        hobbies.add(new Hobby(hName, hDesc));
-        this.phones = new ArrayList();
-        phones.add(new Phone(pNumber, pDesc));
-        this.address = new Address(streetName, houseNumber, story);
-        address.setCityInfo(new CityInfo(zipcode, city));
+        
+        hobbies = new ArrayList();
+        hobbies.add(new HobbyDto(new Hobby(hName, hDesc)));
+        phones = new ArrayList();
+        phones.add(new PhoneDto(new Phone(pNumber, pDesc)));
+        address = new AddressDto(new Address(streetName, houseNumber, story));
+        address.setCityInfo(new CityInfoDto(new CityInfo(zipcode, city)));
 
     }
 
@@ -41,9 +42,9 @@ public class PersonDto {
         this.email = p.getEmail();
         this.firstName = p.getFirstName();
         this.lastName = p.getLastName();
-        this.hobbies = p.getHobbies();
-        this.phones = p.getPhones();
-        this.address = p.getAddress();
+        this.hobbies = new HobbyDto(p.getHobbies()).getAll();
+        this.phones = new PhoneDto(p.getPhones()).getAll();
+        this.address = new AddressDto( p.getAddress());
     }
 
     public PersonDto(List<Person> p) {
@@ -85,27 +86,27 @@ public class PersonDto {
         this.lastName = lastName;
     }
 
-    public List<Hobby> getHobbies() {
+    public List<HobbyDto> getHobbies() {
         return hobbies;
     }
 
-    public void setHobbies(List<Hobby> hobbies) {
+    public void setHobbies(List<HobbyDto> hobbies) {
         this.hobbies = hobbies;
     }
 
-    public List<Phone> getPhones() {
+    public List<PhoneDto> getPhones() {
         return phones;
     }
 
-    public void setPhones(List<Phone> phones) {
+    public void setPhones(List<PhoneDto> phones) {
         this.phones = phones;
     }
 
-    public Address getAddress() {
+    public AddressDto getAddress() {
         return address;
     }
 
-    public void setAddress(Address address) {
+    public void setAddress(AddressDto address) {
         this.address = address;
     }
 

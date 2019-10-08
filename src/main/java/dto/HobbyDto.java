@@ -14,7 +14,7 @@ public class HobbyDto {
     private int id;
     private String name;
     private String description;
-    private List<Person> persons;
+    private List<PersonDto> persons;
     private ArrayList<HobbyDto> all;
     
     public HobbyDto(){
@@ -23,6 +23,7 @@ public class HobbyDto {
     public HobbyDto(String name, String description) {
         this.name = name;
         this.description = description;
+        persons = new ArrayList();
         
     }
 
@@ -30,7 +31,7 @@ public class HobbyDto {
         this.id = h.getId();
         this.name = h.getName();
         this.description = h.getDescription();
-        this.persons = h.getPersons();
+        persons = new PersonDto(h.getPersons()).getAll();
     }
     
 
@@ -65,11 +66,11 @@ public class HobbyDto {
         this.description = description;
     }
 
-    public List<Person> getPersons() {
+    public List<PersonDto> getPersons() {
         return persons;
     }
 
-    public void setPersons(List<Person> persons) {
+    public void setPersons(List<PersonDto> persons) {
         this.persons = persons;
     }
 

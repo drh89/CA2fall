@@ -5,7 +5,9 @@
  */
 package entities;
 
+import dto.PersonDto;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -47,6 +49,15 @@ public class Hobby implements Serializable {
     public Hobby(String name, String description) {
         this.name = name;
         this.description = description;
+    }
+    
+    public List<Person> addToPersons(List<PersonDto> dtoList){
+        List<Person> _persons = new ArrayList();
+        
+        dtoList.forEach((pDto) ->{
+            _persons.add(new Person(pDto.getFirstName(), pDto.getLastName(), pDto.getEmail()));
+        });
+        return _persons;
     }
 
     public String getName() {

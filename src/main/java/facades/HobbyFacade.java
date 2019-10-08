@@ -61,7 +61,7 @@ public class HobbyFacade {
         Hobby hobby = em.find(Hobby.class, hDto.getId());
         hobby.setName(hDto.getName());
         hobby.setDescription(hDto.getDescription());
-        hobby.setPersons(hDto.getPersons());
+        hobby.setPersons(hobby.addToPersons(hDto.getPersons()));
 
         em.getTransaction().begin();
         em.merge(hobby);

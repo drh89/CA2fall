@@ -15,9 +15,8 @@ public class AddressDto {
     private String street;
     private String houseNumber;
     private String story;
-    private List<Person> persons;
-    private int zipcode;
-    private String city;
+    private List<PersonDto> persons;
+    private CityInfoDto cityInfo;
     private ArrayList<AddressDto> all; 
 
     public AddressDto() {
@@ -27,8 +26,8 @@ public class AddressDto {
         this.street = street;
         this.houseNumber = houseNumber;
         this.story = story;
-        this.zipcode = zipcode;
-        this.city = city;
+        this.cityInfo = new CityInfoDto(zipcode, city);
+        persons = new ArrayList();
         
     }
     
@@ -37,9 +36,8 @@ public class AddressDto {
         this.street = a.getStreet();
         this.houseNumber = a.getHouseNumber();
         this.story = a.getStory();
-        this.zipcode = a.getCityInfo().getZipcode();
-        this.city = a.getCityInfo().getCity();
-        this.persons = a.getPersons();
+        this.cityInfo = new CityInfoDto(a.getCityInfo());
+        persons = new PersonDto(a.getPersons()).getAll();
       
     }
 
@@ -83,11 +81,11 @@ public class AddressDto {
         this.story = story;
     }
 
-    public List<Person> getPersons() {
+    public List<PersonDto> getPersons() {
         return persons;
     }
 
-    public void setPersons(List<Person> persons) {
+    public void setPersons(List<PersonDto> persons) {
         this.persons = persons;
     }
 
@@ -99,20 +97,14 @@ public class AddressDto {
         this.houseNumber = houseNumber;
     }
 
-    public int getZipcode() {
-        return zipcode;
+    public CityInfoDto getCityInfo() {
+        return cityInfo;
     }
 
-    public void setZipcode(int zipcode) {
-        this.zipcode = zipcode;
+    public void setCityInfo(CityInfoDto cityInfo) {
+        this.cityInfo = cityInfo;
     }
 
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
+   
     
 }

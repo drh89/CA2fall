@@ -41,7 +41,9 @@ public class CityInfoFacade {
         EntityManager em = getEntityManager();
 
         CityInfo ci = new CityInfo(ciDto.getZipcode(), ciDto.getCity());
-        ci.setAddresss(ciDto.getAddress());
+        ci.setAddresss(ci.addToAdresss(ciDto.getAddress()));
+        
+        
 
         em.getTransaction().begin();
         em.persist(ci);
@@ -56,7 +58,11 @@ public class CityInfoFacade {
 
         cityInfo.setZipcode(ciDto.getZipcode());
         cityInfo.setCity(ciDto.getCity());
-        cityInfo.setAddresss(ciDto.getAddress());
+        cityInfo.setAddresss(cityInfo.addToAdresss(ciDto.getAddress()));
+        
+//        ciDto.getAddress().forEach((addDto)->{
+//            cityInfo.addToAdresss(addDto.getStreet(), addDto.getHouseNumber(), addDto.getStory());
+//        });
 
         em.getTransaction().begin();
         em.merge(cityInfo);

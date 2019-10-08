@@ -14,7 +14,7 @@ public class CityInfoDto {
     private int id;
     private int zipcode;
     private String city;
-    private List<Address> address;
+    private List<AddressDto> address;
     private List<CityInfoDto> all;
 
     public CityInfoDto() {
@@ -24,12 +24,13 @@ public class CityInfoDto {
         this.id = cityInfo.getId();
         this.zipcode = cityInfo.getZipcode();
         this.city = cityInfo.getCity();
-        this.address = cityInfo.getAddresss();
+        address = new AddressDto(cityInfo.getAddresss()).getAll();
     }
 
     public CityInfoDto(int zipcode, String city) {
         this.zipcode = zipcode;
         this.city = city;
+        address = new ArrayList();
     }
 
     public CityInfoDto(List<CityInfo> cI) {
@@ -63,11 +64,11 @@ public class CityInfoDto {
         this.city = city;
     }
 
-    public List<Address> getAddress() {
+    public List<AddressDto> getAddress() {
         return address;
     }
 
-    public void setAddress(List<Address> address) {
+    public void setAddress(List<AddressDto> address) {
         this.address = address;
     }
 
