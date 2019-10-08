@@ -5,10 +5,7 @@
  */
 package entities;
 
-import dto.CityInfoDto;
-import dto.PersonDto;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -40,13 +37,14 @@ public class Address implements Serializable {
     @Column(name = "id")
     private int id;
 
+    
     @Column(name = "street")
     private String street;
     @Column(name = "houseNumber")
     private String houseNumber;
     @Column(name = "story")
     private String story;
-
+    
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "cityInfoId")
 
@@ -64,20 +62,6 @@ public class Address implements Serializable {
         this.story = story;
     }
 
-    public CityInfo addCityInfo(CityInfoDto ciDto) {
-        return new CityInfo(ciDto.getZipcode(),ciDto.getCity());
-    }
-
-    public List<Person> addToPersons(List<PersonDto> dtoList) {
-        List<Person> _persons = new ArrayList();
-
-        dtoList.forEach((pDto) -> {
-            _persons.add(new Person(pDto.getFirstName(), pDto.getLastName(), pDto.getEmail()));
-
-        });
-        return _persons;
-    }
-
     public String getStory() {
         return story;
     }
@@ -85,7 +69,9 @@ public class Address implements Serializable {
     public void setStory(String story) {
         this.story = story;
     }
-
+    
+    
+    
     public String getStreet() {
         return street;
     }

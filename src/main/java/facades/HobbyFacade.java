@@ -5,9 +5,7 @@
  */
 package facades;
 
-import dto.HobbyDto;
 import entities.Hobby;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -18,7 +16,6 @@ import javax.persistence.TypedQuery;
  * @author Dennis
  */
 public class HobbyFacade {
-
     private static HobbyFacade instance;
     private static EntityManagerFactory emf;
 
@@ -42,52 +39,43 @@ public class HobbyFacade {
     private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
-
-    public HobbyDto addHobby(HobbyDto hDto) {
+    
+    public Hobby addHobby(Hobby h){
         EntityManager em = getEntityManager();
-
-        Hobby h = new Hobby(hDto.getName(), hDto.getDescription());
 
         em.getTransaction().begin();
         em.persist(h);
         em.getTransaction().commit();
         em.close();
-        return new HobbyDto(h);
+        return h;
     }
-
-    public HobbyDto editHobby(HobbyDto hDto) {
+    
+    public Hobby editHobby(Hobby h){
         EntityManager em = getEntityManager();
-
-        Hobby hobby = em.find(Hobby.class, hDto.getId());
-        hobby.setName(hDto.getName());
-        hobby.setDescription(hDto.getDescription());
-        hobby.setPersons(hobby.addToPersons(hDto.getPersons()));
-
-        em.getTransaction().begin();
-        em.merge(hobby);
-        em.getTransaction().commit();
-        em.close();
-
-        return new HobbyDto(hobby);
+        
+        Hobby hobby = em.find(Hobby.class, h.getId());
+        hobby.setName(h.getName());
+        hobby.setDescription(h.getDescription());
+        hobby.setPersons(h.getPersons());
+        return hobby;
     }
-
-    public HobbyDto deleteHobby(int id) {
+    
+    public Hobby deleteHobby(int id){
         EntityManager em = getEntityManager();
-
+        
         Hobby h = em.find(Hobby.class, id);
-
+        
         em.getTransaction().begin();
         em.remove(h);
         em.getTransaction().commit();
         em.close();
-
-        return new HobbyDto(h);
+        
+        return h;
     }
-
-    public List<HobbyDto> getAllHobbies() {
+    public List<Hobby> getAllHobbies(){
         EntityManager em = getEntityManager();
-
+        
         TypedQuery tq = em.createNamedQuery("Hobby.all", Hobby.class);
-        return new HobbyDto(tq.getResultList()).getAll();
+        return tq.getResultList();
     }
 }

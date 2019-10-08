@@ -1,13 +1,11 @@
 package facades;
 
-import dto.PersonDto;
 import entities.Person;
 import entities.RenameMe;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
 
 /**
  *
@@ -51,36 +49,25 @@ public class PersonFacade {
 
     }
     
-    public PersonDto getPerson(int id){
+    public Person getPerson(int id){
         EntityManager em = getEntityManager();
         
         Person p = em.find(Person.class, id);
         em.close();
-        return new PersonDto(p);
+        return p;
     }
     
-    public List<PersonDto> getAllPersons(){
+    public Person addPerson(Person person) {
         EntityManager em = getEntityManager();
-        
-        TypedQuery tq = em.createNamedQuery("Person.all", Person.class);
-        return new PersonDto(tq.getResultList()).getAll();
-    }
-    
-    public PersonDto addPerson(PersonDto pDto) {
-        EntityManager em = getEntityManager();
-        Person person = new Person(pDto.getFirstName(), pDto.getLastName(), pDto.getEmail());
-        person.addAdress(pDto.getAddress());
-        person.setPhones(person.addToPhones(pDto.getPhones()));
-        person.setHobbies(person.addToHobbies(pDto.getHobbies()));
-        
+
         em.getTransaction().begin();
         em.persist(person);
         em.getTransaction().commit();
         em.close();
-        return new PersonDto(person);
+        return person;
     }
 
-    public PersonDto editPerson(PersonDto p){
+    public Person editPerson(Person p){
         EntityManager em = getEntityManager();
         
         Person person = em.find(Person.class, p.getId());
@@ -88,13 +75,9 @@ public class PersonFacade {
         person.setFirstName(p.getFirstName());
         person.setLastName(p.getLastName());
         person.setEmail(p.getEmail());
-//        person.setAddress(p.getAddress());
-        person.setAddress(person.addAdress(p.getAddress()));
-        
-//        person.setHobbies(p.getHobbies());
-        person.setHobbies(person.addToHobbies(p.getHobbies()));
-        
-        person.setPhones(person.addToPhones(p.getPhones()));
+        person.setAddress(p.getAddress());
+        person.setHobbies(p.getHobbies());
+        person.setPhones(p.getPhones());
         
         em.getTransaction().begin();
         em.merge(person);
@@ -102,11 +85,11 @@ public class PersonFacade {
         
         em.close();
         
-        return new PersonDto(person);
+        return person;
         
     }
     
-    public PersonDto deletePerson(int id){
+    public Person deletePerson(int id){
         EntityManager em = getEntityManager();
         
         Person person = em.find(Person.class, id);
@@ -116,7 +99,7 @@ public class PersonFacade {
         em.getTransaction().commit();
         em.close();
         
-        return new PersonDto(person);
+        return person;
     }
 
 }
