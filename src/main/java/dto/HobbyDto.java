@@ -17,17 +17,20 @@ public class HobbyDto {
     private List<Person> persons;
     private ArrayList<HobbyDto> all;
     
-    public HobbyDto(int id, String name, String description, List<Person> persons) {
-        this.id = id;
+    public HobbyDto(){
+    }
+    
+    public HobbyDto(String name, String description) {
         this.name = name;
         this.description = description;
-        this.persons = persons;
+        
     }
 
     public HobbyDto(Hobby h) {
         this.id = h.getId();
         this.name = h.getName();
         this.description = h.getDescription();
+        this.persons = h.getPersons();
     }
     
 
