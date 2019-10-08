@@ -1,11 +1,13 @@
 package facades;
 
+import dto.PersonDto;
 import entities.Person;
 import entities.RenameMe;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -49,25 +51,36 @@ public class PersonFacade {
 
     }
     
-    public Person getPerson(int id){
+    public PersonDto getPerson(int id){
         EntityManager em = getEntityManager();
         
         Person p = em.find(Person.class, id);
         em.close();
-        return p;
+        return new PersonDto(p);
     }
     
-    public Person addPerson(Person person) {
+    public List<PersonDto> getAllPersons(){
         EntityManager em = getEntityManager();
-
+        
+        TypedQuery tq = em.createNamedQuery("Person.all", Person.class);
+        return new PersonDto(tq.getResultList()).getAll();
+    }
+    
+    public PersonDto addPerson(PersonDto pDto) {
+        EntityManager em = getEntityManager();
+        Person person = new Person(pDto.getFirstName(), pDto.getLastName(), pDto.getEmail());
+        person.setAddress(pDto.getAddress());
+        person.setPhones(pDto.getPhones());
+        person.setHobbies(pDto.getHobbies());
+        
         em.getTransaction().begin();
         em.persist(person);
         em.getTransaction().commit();
         em.close();
-        return person;
+        return new PersonDto(person);
     }
 
-    public Person editPerson(Person p){
+    public PersonDto editPerson(PersonDto p){
         EntityManager em = getEntityManager();
         
         Person person = em.find(Person.class, p.getId());
@@ -85,11 +98,11 @@ public class PersonFacade {
         
         em.close();
         
-        return person;
+        return new PersonDto(person);
         
     }
     
-    public Person deletePerson(int id){
+    public PersonDto deletePerson(int id){
         EntityManager em = getEntityManager();
         
         Person person = em.find(Person.class, id);
@@ -99,7 +112,7 @@ public class PersonFacade {
         em.getTransaction().commit();
         em.close();
         
-        return person;
+        return new PersonDto(person);
     }
 
 }

@@ -23,10 +23,10 @@ public class PersonDto {
     private Address address;
     private ArrayList<PersonDto> all;
 
-    public PersonDto(String email, String firstName, String lastName, String hName, String hDesc, String pNumber, String pDesc, String streetName, String houseNumber, String story, int zipcode, String city) {
-        this.email = email;
+    public PersonDto(String firstName, String lastName, String email, String hName, String hDesc, String pNumber, String pDesc, String streetName, String houseNumber, String story, int zipcode, String city) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.email = email;
         this.hobbies = new ArrayList();
         hobbies.add(new Hobby(hName, hDesc));
         this.phones = new ArrayList();
