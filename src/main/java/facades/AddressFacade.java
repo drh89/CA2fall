@@ -1,6 +1,8 @@
 package facades;
 
+import dto.AddressDto;
 import entities.Address;
+import entities.CityInfo;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -36,30 +38,35 @@ public class AddressFacade {
         return emf.createEntityManager();
     }
 
-    public Address addAddress(Address address) {
+    public AddressDto addAddress(AddressDto addressDto) {
         EntityManager em = getEntityManager();
+        Address address = new Address(addressDto.getStreet(), addressDto.getHouseNumber(), addressDto.getStory());
+        address.setCityInfo(new CityInfo(addressDto.getZipcode(), addressDto.getCity()));
 
         em.getTransaction().begin();
         em.persist(address);
         em.getTransaction().commit();
         em.close();
-        return address;
+        return new AddressDto(address);
     }
   
-    public Address editAddress(Address a){
+    public AddressDto editAddress(AddressDto a){
         EntityManager em = getEntityManager();
         
         Address address = em.find(Address.class, a.getId());
+        address.setStreet(a.getStreet());
+        address.setHouseNumber(a.getHouseNumber());
+        address.setStory(a.getStory());
         address.setPersons(a.getPersons());
         
         em.getTransaction().begin();
         em.merge(address);
         em.getTransaction().commit();
         em.close();
-        return address;
+        return new AddressDto(address);
     }
     
-        public Address deleteAddress(int id){
+        public AddressDto deleteAddress(int id){
         EntityManager em = getEntityManager();
         
         Address address = em.find(Address.class, id);
@@ -69,14 +76,14 @@ public class AddressFacade {
         em.getTransaction().commit();
         em.close();
         
-        return address;
+        return new AddressDto(address);
     }
         
-    public List<Address> getAllAddress(){
+    public List<AddressDto> getAllAddress(){
         EntityManager em = getEntityManager();
         
         TypedQuery tq = em.createNamedQuery("Address.all", Address.class);
-        return tq.getResultList();
+        return new AddressDto(tq.getResultList()).getAll();
         
     }
 }

@@ -5,6 +5,7 @@
  */
 package facades;
 
+import dto.AddressDto;
 import entities.Address;
 import entities.CityInfo;
 import entities.Hobby;
@@ -109,7 +110,7 @@ public class BusinessFacade {
     public List<Address> getAllAddress(){
         return af.getAllAddress();
     }
-    public Address addAddress(Address a){
+    public AddressDto addAddress(AddressDto a){
         return af.addAddress(a);
     }
     public Address editAddress(Address a){

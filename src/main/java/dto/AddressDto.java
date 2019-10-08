@@ -50,6 +50,14 @@ public class AddressDto {
         });
         
     }
+
+    public ArrayList<AddressDto> getAll() {
+        return all;
+    }
+
+    public void setAll(ArrayList<AddressDto> all) {
+        this.all = all;
+    }
     
     public int getId() {
         return id;
@@ -65,14 +73,6 @@ public class AddressDto {
 
     public void setStreet(String street) {
         this.street = street;
-    }
-
-    public String getHousenumber() {
-        return houseNumber;
-    }
-
-    public void setHousenumber(String housenumber) {
-        this.houseNumber = housenumber;
     }
 
     public String getStory() {
