@@ -1,0 +1,118 @@
+package dto;
+
+import entities.Address;
+import entities.Person;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ *
+ * @author Ryge
+ */
+public class AddressDto {
+
+    private int id;
+    private String street;
+    private String houseNumber;
+    private String story;
+    private List<Person> persons;
+    private int zipcode;
+    private String city;
+    private ArrayList<AddressDto> all; 
+
+    public AddressDto() {
+    }
+
+    public AddressDto(String street, String houseNumber, String story, int zipcode, String city) {
+        this.street = street;
+        this.houseNumber = houseNumber;
+        this.story = story;
+        this.zipcode = zipcode;
+        this.city = city;
+        
+    }
+    
+    public AddressDto(Address a) {
+        this.id = a.getId();
+        this.street = a.getStreet();
+        this.houseNumber = a.getHouseNumber();
+        this.story = a.getStory();
+        this.zipcode = a.getCityInfo().getZipcode();
+        this.city = a.getCityInfo().getCity();
+        this.persons = a.getPersons();
+      
+    }
+
+    public AddressDto(List<Address> a) {
+        all = new ArrayList();
+        a.forEach((address) -> {
+            all.add(new AddressDto(address));
+        });
+        
+    }
+    
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getHousenumber() {
+        return houseNumber;
+    }
+
+    public void setHousenumber(String housenumber) {
+        this.houseNumber = housenumber;
+    }
+
+    public String getStory() {
+        return story;
+    }
+
+    public void setStory(String story) {
+        this.story = story;
+    }
+
+    public List<Person> getPersons() {
+        return persons;
+    }
+
+    public void setPersons(List<Person> persons) {
+        this.persons = persons;
+    }
+
+    public String getHouseNumber() {
+        return houseNumber;
+    }
+
+    public void setHouseNumber(String houseNumber) {
+        this.houseNumber = houseNumber;
+    }
+
+    public int getZipcode() {
+        return zipcode;
+    }
+
+    public void setZipcode(int zipcode) {
+        this.zipcode = zipcode;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+    
+}
