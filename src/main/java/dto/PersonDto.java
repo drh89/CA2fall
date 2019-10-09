@@ -28,6 +28,7 @@ public class PersonDto {
     }
     
     
+    //Used to populate DB
     
     public PersonDto(String firstName, String lastName, String email, String hName, String hDesc, String pNumber, String pDesc, String streetName, String houseNumber, String story, int zipcode, String city) {
         this.firstName = firstName;

@@ -62,10 +62,11 @@ public class BusinessFacade {
 
         person.setAddress(p.getAddress());
 
-        person.getAddress().setCityInfo(new CityInfoDto(p.getAddress().getCityInfo().getZipcode(), p.getAddress().getCityInfo().getCity()));
-//        List<HobbyDto> hobbies =
+        person.getAddress().setCityInfo(p.getAddress().getCityInfo());
         
         person.setHobbies(p.getHobbies());
+        
+        person.setPhones(p.getPhones());
 
         return editPerson(person);
     }
@@ -78,6 +79,12 @@ public class BusinessFacade {
 //    public Person getPerson(int id) {
 //        return pf.getPerson(id);
 //    }
+    public PersonDto getPersonByEmail(String email){
+       return pf.getPersonByEmail(email);
+    }
+    public List<PersonDto> getAllPersons(){
+        return pf.getAllPersons();
+    }
     public Person deletePerson(int id) {
         return pf.deletePerson(id);
     }

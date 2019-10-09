@@ -43,6 +43,7 @@ public class Phone implements Serializable {
     public Phone(String number, String description) {
         this.number = number;
         this.description = description;
+        person = new Person();
     }
 
     public String getNumber() {

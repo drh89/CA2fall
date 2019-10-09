@@ -2,6 +2,7 @@ package facades;
 
 import dto.HobbyDto;
 import dto.PersonDto;
+import dto.PhoneDto;
 import entities.Address;
 import entities.CityInfo;
 import entities.Hobby;
@@ -128,18 +129,8 @@ public class PersonFacade {
         person.setHobbies(hobbyCheck(p.getHobbies(), person));
         
 
-//        person.getHobbies().clear();
-//        p.getHobbies().forEach((hDto) -> {
-//            person.getHobbies().add(new Hobby(hDto.getName(), hDto.getDescription()));
-//        });
-//
-//        person.getPhones().clear();
-//        p.getPhones().forEach((pDto) -> {
-//            Phone phone = new Phone(pDto.getNumber(), pDto.getDescription());
-//            phone.setPerson(person);
-//            person.getPhones().add(phone);
-//
-//        });
+        person.setPhones(phoneCheck(p.getPhones(),person));
+
         em.getTransaction().begin();
         em.merge(person);
         em.getTransaction().commit();
@@ -148,6 +139,15 @@ public class PersonFacade {
 
         return new PersonDto(person);
 
+    }
+    private List<Phone> phoneCheck(List<PhoneDto> pDtoList, Person p){
+        List<Phone> phones = new ArrayList();
+        for(PhoneDto pDto : pDtoList){
+            Phone phone = new Phone(pDto.getNumber(), pDto.getDescription());
+            phone.setPerson(p);
+            phones.add(phone);
+        }
+        return phones;
     }
 
     private List<Hobby> hobbyCheck(List<HobbyDto> hDtoList, Person p) {
