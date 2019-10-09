@@ -6,6 +6,7 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,7 +25,8 @@ import javax.persistence.Table;
 @Entity
 @Table (name = "Hobby")
 @NamedQueries({
-    @NamedQuery(name = "Hobby.all", query = "SELECT h FROM Hobby h")
+    @NamedQuery(name = "Hobby.all", query = "SELECT h FROM Hobby h"),
+    @NamedQuery(name = "Hobby.check", query = "SELECT h FROM Hobby h WHERE h.name = :name")
 })
 public class Hobby implements Serializable {
 
@@ -47,6 +49,7 @@ public class Hobby implements Serializable {
     public Hobby(String name, String description) {
         this.name = name;
         this.description = description;
+        persons = new ArrayList();
     }
 
     public String getName() {

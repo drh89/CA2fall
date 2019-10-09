@@ -1,5 +1,6 @@
 package facades;
 
+import dto.HobbyDto;
 import dto.PersonDto;
 import entities.Address;
 import entities.CityInfo;
@@ -9,6 +10,7 @@ import entities.Phone;
 import entities.RenameMe;
 import errorhandling.AddressNotFoundException;
 import errorhandling.CityInfoNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -61,7 +63,7 @@ public class PersonFacade {
         }
 
     }
-    
+
     public List<PersonDto> getAllPersons() {
         EntityManager em = emf.createEntityManager();
         try {
@@ -70,7 +72,7 @@ public class PersonFacade {
             em.close();
         }
     }
-    
+
     public PersonDto getPersonByEmail(String email) {
         EntityManager em = emf.createEntityManager();
         try {
@@ -123,20 +125,21 @@ public class PersonFacade {
 
             }
         }
+        person.setHobbies(hobbyCheck(p.getHobbies(), person));
+        
 
-        person.getHobbies().clear();
-        p.getHobbies().forEach((hDto) -> {
-            person.getHobbies().add(new Hobby(hDto.getName(), hDto.getDescription()));
-        });
-
-        person.getPhones().clear();
-        p.getPhones().forEach((pDto) -> {
-            Phone phone = new Phone(pDto.getNumber(), pDto.getDescription());
-            phone.setPerson(person);
-            person.getPhones().add(phone);
-
-        });
-
+//        person.getHobbies().clear();
+//        p.getHobbies().forEach((hDto) -> {
+//            person.getHobbies().add(new Hobby(hDto.getName(), hDto.getDescription()));
+//        });
+//
+//        person.getPhones().clear();
+//        p.getPhones().forEach((pDto) -> {
+//            Phone phone = new Phone(pDto.getNumber(), pDto.getDescription());
+//            phone.setPerson(person);
+//            person.getPhones().add(phone);
+//
+//        });
         em.getTransaction().begin();
         em.merge(person);
         em.getTransaction().commit();
@@ -144,6 +147,29 @@ public class PersonFacade {
         em.close();
 
         return new PersonDto(person);
+
+    }
+
+    private List<Hobby> hobbyCheck(List<HobbyDto> hDtoList, Person p) {
+        EntityManager em = getEntityManager();
+        List<Hobby> hList = new ArrayList();
+
+        for (HobbyDto hDto : hDtoList) {
+            TypedQuery tq = em.createNamedQuery("Hobby.check", Hobby.class);
+            tq.setParameter("name", hDto.getName());
+
+            try {
+                Hobby h = (Hobby) tq.getSingleResult();
+                h.getPersons().add(p);
+
+                hList.add(h);
+            } catch (NoResultException ex) {
+                Hobby newH = new Hobby(hDto.getName(), hDto.getDescription());
+                newH.getPersons().add(p);
+                hList.add(newH);
+            }
+        }
+        return hList;
 
     }
 

@@ -7,11 +7,13 @@ package facades;
 
 import dto.AddressDto;
 import dto.CityInfoDto;
+import dto.HobbyDto;
 import dto.PersonDto;
 import entities.Address;
 import entities.CityInfo;
 import entities.Hobby;
 import entities.Person;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -61,6 +63,9 @@ public class BusinessFacade {
         person.setAddress(p.getAddress());
 
         person.getAddress().setCityInfo(new CityInfoDto(p.getAddress().getCityInfo().getZipcode(), p.getAddress().getCityInfo().getCity()));
+//        List<HobbyDto> hobbies =
+        
+        person.setHobbies(p.getHobbies());
 
         return editPerson(person);
     }
