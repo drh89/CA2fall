@@ -42,6 +42,10 @@ public class PersonFacade {
         return instance;
     }
 
+    public PersonFacade(EntityManagerFactory emf) {
+        this.emf = emf;
+    }
+
     private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
@@ -56,6 +60,24 @@ public class PersonFacade {
             em.close();
         }
 
+    }
+    
+    public List<PersonDto> getAllPersons() {
+        EntityManager em = emf.createEntityManager();
+        try {
+            return em.createNamedQuery("PersonDto.findAll", PersonDto.class).getResultList();
+        } finally {
+            em.close();
+        }
+    }
+    
+    public PersonDto getPersonByEmail(String email) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            return em.createNamedQuery("PersonDto.findByEmail", PersonDto.class).setParameter("email", email).getSingleResult();
+        } finally {
+            em.close();
+        }
     }
 
     public PersonDto getPerson(int id) {
