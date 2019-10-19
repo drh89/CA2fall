@@ -8,6 +8,7 @@ import entities.CityInfo;
 import entities.Person;
 import entities.Phone;
 import entities.RenameMe;
+import errorhandling.PhoneNotFoundException;
 import facades.BusinessFacade;
 import utils.EMF_Creator;
 import facades.PersonFacade;
@@ -53,38 +54,21 @@ public class RenameMeResource {
 
     public static void main(String[] args) {
         
-        PersonDto first = new PersonDto("Jens", "Hansen", "test@test.dk", "Football", "Teamsport where you kick to a ball", "22233344", "Jens Hansens Phone", "Hjalmersgade", "22", "2tv", 2200, "Copenhagen");
-        PersonDto second = new PersonDto("Hanne", "Hansen", "test2@test.dk", "Handball", "Teamsport where you throw a ball", "22233344", "Hanne Hansens Phone", "Hjalmersgade", "22", "2tv", 2200, "Copenhagen");
-        PersonDto third = new PersonDto("Bjarne", "Lund", "test3@test.dk", "Football", "Teamsport where you kick to a ball", "22233344", "Bjarne Lunds Phone", "Lortegade", "232", "3tv", 2200, "Copenhagen");
-        System.out.println(FACADE.addPerson(first));
-        System.out.println(FACADE.addPerson(second));
-        System.out.println(FACADE.addPerson(third));
+//        PersonDto first = new PersonDto("Jens", "Hansen", "test@test.dk", "Football", "Teamsport where you kick to a ball", "22233344", "Jens Hansens Phone", "Hjalmersgade", "22", "2tv", 2200, "Copenhagen");
+//        PersonDto second = new PersonDto("Hanne", "Hansen", "test2@test.dk", "Handball", "Teamsport where you throw a ball", "28833344", "Hanne Hansens Phone", "Hjalmersgade", "22", "2tv", 2200, "Copenhagen");
+//        PersonDto third = new PersonDto("Bjarne", "Lund", "test3@test.dk", "Football", "Teamsport where you kick to a ball", "66233344", "Bjarne Lunds Phone", "Lortegade", "232", "3tv", 2200, "Copenhagen");
+//        System.out.println(FACADE.addPerson(first));
+//        System.out.println(FACADE.addPerson(second));
+//        System.out.println(FACADE.addPerson(third));
         
-//        Person first = new Person("test@test.dk", "Hanne", "Jensen");
-//        List<Phone> firstPhones = new ArrayList();
-//        firstPhones.add(new Phone("22001122","Hannes phone"));
-//        first.setAddress(new Address("Hjalmersgade", "22", "2tv"));
-//        first.getAddress().setCityInfo(new CityInfo(2200, "Copenhagen"));
-////        first.setPhones(firstPhones);
-////        first.getPhones().get(0).setPerson(first);
-//        first = FACADE.addPerson(first);
-//        System.out.println(first.getId());
-//        first.setPhones(firstPhones);
-//        first.getPhones().get(0).setPerson(first);
-//        first = FACADE.editPerson(first);
-//        System.out.println(first.getPhones().get(0));
-//        
-//        Person second = new Person("est@test.dk", "Hans", "Jensen");
-//        second.setAddress(new Address("Hjalmersgade", "22", "2tv"));
-//        second.getAddress().setCityInfo(new CityInfo(2200, "Copenhagen"));
-//        second = FACADE.addPerson(second);
-//        System.out.println(second.getAddress().getStreet() + " " + second.getAddress().getCityInfo().getZipcode());
-//
-//        Person third = new Person("test2@test.dk", "Bo","Boesen");
-//        third.setAddress(new Address("Bagergade", "12", "0th"));
-//        third.getAddress().setCityInfo(new CityInfo(2200, "Copenhagen"));
-//        third = FACADE.addPerson(third);
-//        System.out.println(FACADE.deletePerson(1));
+            try{
+                PersonDto p = FACADE.getPersonInfoByPhone("28833344");
+                System.out.println(p.getHobbies().get(0).getName());
+            }catch(PhoneNotFoundException ex){
+                System.out.println(ex.getMessage());
+            }
+           
+            
         
     }
 

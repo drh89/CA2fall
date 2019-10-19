@@ -12,7 +12,7 @@ import dto.PersonDto;
 import entities.Address;
 import entities.CityInfo;
 import entities.Hobby;
-import entities.Person;
+import errorhandling.PhoneNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -76,16 +76,20 @@ public class BusinessFacade {
         return pf.editPerson(p);
     }
 
-//    public Person getPerson(int id) {
-//        return pf.getPerson(id);
-//    }
+    public PersonDto getPerson(int id) {
+        return pf.getPerson(id);
+    }
+    
+    public PersonDto getPersonInfoByPhone(String phoneNumber) throws PhoneNotFoundException{
+        return pf.getPersonInfoByPhone(phoneNumber);
+    }
     public PersonDto getPersonByEmail(String email){
        return pf.getPersonByEmail(email);
     }
     public List<PersonDto> getAllPersons(){
         return pf.getAllPersons();
     }
-    public Person deletePerson(int id) {
+    public PersonDto deletePerson(int id) {
         return pf.deletePerson(id);
     }
 

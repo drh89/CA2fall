@@ -13,6 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
@@ -21,6 +23,9 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Phone")
+@NamedQueries({
+    @NamedQuery(name = "Phone.byPersonId", query = "SELECT p FROM Phone p WHERE p.person = :id")
+})
 public class Phone implements Serializable {
 
     private static final long serialVersionUID = 1L;

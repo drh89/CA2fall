@@ -32,7 +32,7 @@ public class AddressDto {
     }
     
     public AddressDto(Address a) {
-//        this.id = a.getId();
+        this.id = a.getId();
         this.street = a.getStreet();
         this.houseNumber = a.getHouseNumber();
         this.story = a.getStory();

@@ -52,17 +52,17 @@ public class PersonResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public void createPerson(String content) {
+    public Response createPerson(String content) {
         PersonDto p = GSON.fromJson(content, PersonDto.class);
-        FACADE.addPerson(p);
+        return Response.ok().entity(GSON.toJson(FACADE.addPerson(p))).build();
     }
     
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public void updatePerson(String content) {
+    public Response updatePerson(String content) {
         PersonDto p = GSON.fromJson(content, PersonDto.class);
-        FACADE.editPerson(p);
+        return Response.ok().entity(GSON.toJson(FACADE.editPerson(p))).build();
     }
 
 }

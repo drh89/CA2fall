@@ -1,5 +1,6 @@
 package facades;
 
+import dto.AddressDto;
 import dto.HobbyDto;
 import dto.PersonDto;
 import dto.PhoneDto;
@@ -11,12 +12,14 @@ import entities.Phone;
 import entities.RenameMe;
 import errorhandling.AddressNotFoundException;
 import errorhandling.CityInfoNotFoundException;
+import errorhandling.PhoneNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 /**
@@ -66,21 +69,20 @@ public class PersonFacade {
     }
 
     public List<PersonDto> getAllPersons() {
-        EntityManager em = emf.createEntityManager();
-        try {
-            return em.createNamedQuery("PersonDto.findAll", PersonDto.class).getResultList();
-        } finally {
-            em.close();
-        }
+        EntityManager em = getEntityManager();
+
+        TypedQuery tq = em.createNamedQuery("Person.getAll", Person.class);
+        List<PersonDto> dto = new PersonDto(tq.getResultList()).getAll();
+
+        return dto;
+
     }
 
     public PersonDto getPersonByEmail(String email) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            return em.createNamedQuery("PersonDto.findByEmail", PersonDto.class).setParameter("email", email).getSingleResult();
-        } finally {
-            em.close();
-        }
+        EntityManager em = getEntityManager();
+
+        return em.createNamedQuery("PersonDto.findByEmail", PersonDto.class).setParameter("email", email).getSingleResult();
+
     }
 
     public PersonDto getPerson(int id) {
@@ -127,9 +129,8 @@ public class PersonFacade {
             }
         }
         person.setHobbies(hobbyCheck(p.getHobbies(), person));
-        
 
-        person.setPhones(phoneCheck(p.getPhones(),person));
+        person.setPhones(phoneCheck(p.getPhones(), person));
 
         em.getTransaction().begin();
         em.merge(person);
@@ -140,9 +141,79 @@ public class PersonFacade {
         return new PersonDto(person);
 
     }
-    private List<Phone> phoneCheck(List<PhoneDto> pDtoList, Person p){
+
+    public PersonDto deletePerson(int id) {
+        EntityManager em = getEntityManager();
+
+        Person person = em.find(Person.class, id);
+
+        em.getTransaction().begin();
+        em.remove(person);
+        em.getTransaction().commit();
+        em.close();
+
+        return new PersonDto(person);
+    }
+
+    public PersonDto getPersonInfoByPhone(String phoneNumber) throws PhoneNotFoundException {
+        try {
+
+            EntityManager em = getEntityManager();
+
+            TypedQuery q = (TypedQuery) em.createQuery(
+                    "SELECT p FROM Person p JOIN FETCH p.phones t WHERE t.number = :phoneNumber", Person.class);
+            q.setParameter("phoneNumber", phoneNumber);
+            Person p = (Person) q.getSingleResult();
+            Phone ph = getPersonsPhone(phoneNumber);
+            Address a = getPersonsAddress(p);
+            List<Hobby> hobbies = getPersonsHobbies(p);
+            p.getPhones().add(ph);
+            
+            
+            PersonDto dto = new PersonDto(p);
+            dto.getPhones().add(new PhoneDto(ph));
+            dto.setAddress(new AddressDto(a));
+            dto.setHobbies(new HobbyDto(hobbies).getAll());
+
+            return dto;
+
+        } catch (NoResultException ex) {
+            throw new PhoneNotFoundException("PhoneNumber does not exist");
+        }
+
+    }
+    
+    private List<Hobby> getPersonsHobbies(Person p){
+        EntityManager em = getEntityManager();
+        
+        TypedQuery q = em.createQuery("SELECT h FROM Hobby h JOIN FETCH h.persons p WHERE p.id = :id", Hobby.class);
+        q.setParameter("id", p.getId());
+        List<Hobby> h = q.getResultList();
+        return h;
+    }
+
+    private Address getPersonsAddress(Person p) {
+        EntityManager em = getEntityManager();
+
+        TypedQuery q = em.createQuery("SELECT a FROM Address a JOIN FETCH a.persons p WHERE p.id = :id", Address.class);
+        q.setParameter("id", p.getId());
+        Address a = (Address) q.getSingleResult();
+
+        return a;
+    }
+
+    private Phone getPersonsPhone(String number) {
+        EntityManager em = getEntityManager();
+        TypedQuery q = em.createQuery("SELECT p FROM Phone p WHERE p.number = :number", Phone.class);
+        q.setParameter("number", number);
+        Phone p = (Phone) q.getSingleResult();
+        return p;
+
+    }
+
+    private List<Phone> phoneCheck(List<PhoneDto> pDtoList, Person p) {
         List<Phone> phones = new ArrayList();
-        for(PhoneDto pDto : pDtoList){
+        for (PhoneDto pDto : pDtoList) {
             Phone phone = new Phone(pDto.getNumber(), pDto.getDescription());
             phone.setPerson(p);
             phones.add(phone);
@@ -204,18 +275,4 @@ public class PersonFacade {
         return (Address) tq.getSingleResult();
 
     }
-
-    public Person deletePerson(int id) {
-        EntityManager em = getEntityManager();
-
-        Person person = em.find(Person.class, id);
-
-        em.getTransaction().begin();
-        em.remove(person);
-        em.getTransaction().commit();
-        em.close();
-
-        return person;
-    }
-
 }

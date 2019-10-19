@@ -19,6 +19,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -29,6 +30,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Person")
 @NamedQueries({
+    @NamedQuery(name = "Person.getAll", query = "SELECT p FROM Person p"),
+    @NamedQuery(name = "Person.id", query = "SELECT p FROM Person p WHERE p.id = :id")
     
 })
 public class Person implements Serializable {
