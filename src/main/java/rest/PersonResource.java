@@ -3,8 +3,11 @@ package rest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dto.PersonDto;
+import errorhandling.PhoneNotFoundException;
 import facades.BusinessFacade;
 import facades.PersonFacade;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.ws.rs.Consumes;
@@ -22,7 +25,7 @@ import utils.EMF_Creator;
  *
  * @author Ryge
  */
-@Path("Person")
+@Path("person")
 public class PersonResource {
 
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory(
@@ -34,9 +37,8 @@ public class PersonResource {
     private static final BusinessFacade FACADE = BusinessFacade.getFacadeExample(EMF);
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
-
     @GET
-    @Path("/All")
+    @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllPersons(@PathParam("number") String number) {
         return Response.ok().entity(GSON.toJson(FACADE.getAllPersons())).build();
@@ -48,7 +50,25 @@ public class PersonResource {
     public Response getPersonByEmail(@PathParam("email") String email) {
         return Response.ok().entity(GSON.toJson(FACADE.getPersonByEmail(email))).build();
     }
+
+    @GET
+    @Path("/{phoneNumber}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getPersonInfoByPhone(@PathParam("phoneNumber") String phoneNumber) {
+        try {
+            return Response.ok().entity(GSON.toJson(FACADE.getPersonInfoByPhone(phoneNumber))).build();
+        } catch (PhoneNotFoundException ex) {
+            return Response.ok().entity(GSON.toJson(ex.getMessage())).build();
+        }
+    }
     
+    @GET
+    @Path("/hobby/{hobby}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllPersonsWithHobby(@PathParam("hobby") String hobbyName){
+        return Response.ok().entity(GSON.toJson(FACADE.getPersonsWithHobby(hobbyName))).build();
+    }
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -56,7 +76,7 @@ public class PersonResource {
         PersonDto p = GSON.fromJson(content, PersonDto.class);
         return Response.ok().entity(GSON.toJson(FACADE.addPerson(p))).build();
     }
-    
+
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)

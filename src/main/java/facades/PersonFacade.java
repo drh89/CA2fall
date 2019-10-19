@@ -154,6 +154,15 @@ public class PersonFacade {
 
         return new PersonDto(person);
     }
+    
+    public List<PersonDto> getPersonsWithHobby(String hobbyName){
+        EntityManager em = getEntityManager();
+        
+        TypedQuery q = em.createQuery("SELECT p FROM Person p JOIN FETCH p.hobbies h WHERE h.name = :name", Person.class);
+        q.setParameter("name", hobbyName);
+        List<Person> p = q.getResultList();
+        return new PersonDto(p).getAll();
+    }
 
     public PersonDto getPersonInfoByPhone(String phoneNumber) throws PhoneNotFoundException {
         try {
@@ -164,14 +173,14 @@ public class PersonFacade {
                     "SELECT p FROM Person p JOIN FETCH p.phones t WHERE t.number = :phoneNumber", Person.class);
             q.setParameter("phoneNumber", phoneNumber);
             Person p = (Person) q.getSingleResult();
-            Phone ph = getPersonsPhone(phoneNumber);
+            List<Phone> ph = getPersonsPhones(p.getId());
             Address a = getPersonsAddress(p);
             List<Hobby> hobbies = getPersonsHobbies(p);
-            p.getPhones().add(ph);
+            
             
             
             PersonDto dto = new PersonDto(p);
-            dto.getPhones().add(new PhoneDto(ph));
+            dto.setPhones(new PhoneDto(ph).getAll());
             dto.setAddress(new AddressDto(a));
             dto.setHobbies(new HobbyDto(hobbies).getAll());
 
@@ -202,11 +211,11 @@ public class PersonFacade {
         return a;
     }
 
-    private Phone getPersonsPhone(String number) {
+    private List<Phone> getPersonsPhones(int id) {
         EntityManager em = getEntityManager();
-        TypedQuery q = em.createQuery("SELECT p FROM Phone p WHERE p.number = :number", Phone.class);
-        q.setParameter("number", number);
-        Phone p = (Phone) q.getSingleResult();
+        TypedQuery q = em.createQuery("SELECT p FROM Phone p JOIN FETCH p.person per WHERE per.id = :id", Phone.class);
+        q.setParameter("id", id);
+        List<Phone> p = q.getResultList();
         return p;
 
     }

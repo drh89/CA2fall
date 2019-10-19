@@ -63,7 +63,7 @@ public class RenameMeResource {
         
             try{
                 PersonDto p = FACADE.getPersonInfoByPhone("28833344");
-                System.out.println(p.getHobbies().get(0).getName());
+                System.out.println(p.getPhones().get(0).getNumber());
             }catch(PhoneNotFoundException ex){
                 System.out.println(ex.getMessage());
             }

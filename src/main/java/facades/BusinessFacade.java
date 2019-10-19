@@ -80,6 +80,10 @@ public class BusinessFacade {
         return pf.getPerson(id);
     }
     
+    public List<PersonDto> getPersonsWithHobby(String hobbyName){
+        return pf.getPersonsWithHobby(hobbyName);
+    }
+    
     public PersonDto getPersonInfoByPhone(String phoneNumber) throws PhoneNotFoundException{
         return pf.getPersonInfoByPhone(phoneNumber);
     }
