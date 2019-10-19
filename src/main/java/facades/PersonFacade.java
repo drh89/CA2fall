@@ -9,7 +9,6 @@ import entities.CityInfo;
 import entities.Hobby;
 import entities.Person;
 import entities.Phone;
-import entities.RenameMe;
 import errorhandling.AddressNotFoundException;
 import errorhandling.CityInfoNotFoundException;
 import errorhandling.PhoneNotFoundException;
@@ -18,8 +17,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 /**
@@ -78,12 +75,6 @@ public class PersonFacade {
 
     }
 
-    public PersonDto getPersonByEmail(String email) {
-        EntityManager em = getEntityManager();
-
-        return em.createNamedQuery("PersonDto.findByEmail", PersonDto.class).setParameter("email", email).getSingleResult();
-
-    }
 
     public PersonDto getPerson(int id) {
         EntityManager em = getEntityManager();
@@ -154,10 +145,21 @@ public class PersonFacade {
 
         return new PersonDto(person);
     }
-    
-    public List<PersonDto> getPersonsWithHobby(String hobbyName){
+    public int getPersonCountOfHobby(String hobbyName){
+        int count = getPersonsWithHobby(hobbyName).size();
+        return count;
+    }
+    public List<PersonDto> getPersonsFromCity(String city){
         EntityManager em = getEntityManager();
         
+        TypedQuery q = em.createQuery("SELECT p FROM Person p JOIN FETCH p.address.cityInfo ci WHERE ci.city = :city", Person.class);
+        q.setParameter("city", city);
+        List<Person> p = q.getResultList();
+        return new PersonDto(p).getAll();
+    }
+    public List<PersonDto> getPersonsWithHobby(String hobbyName) {
+        EntityManager em = getEntityManager();
+
         TypedQuery q = em.createQuery("SELECT p FROM Person p JOIN FETCH p.hobbies h WHERE h.name = :name", Person.class);
         q.setParameter("name", hobbyName);
         List<Person> p = q.getResultList();
@@ -173,16 +175,9 @@ public class PersonFacade {
                     "SELECT p FROM Person p JOIN FETCH p.phones t WHERE t.number = :phoneNumber", Person.class);
             q.setParameter("phoneNumber", phoneNumber);
             Person p = (Person) q.getSingleResult();
-            List<Phone> ph = getPersonsPhones(p.getId());
-            Address a = getPersonsAddress(p);
-            List<Hobby> hobbies = getPersonsHobbies(p);
-            
-            
-            
+
+            p = setPersonInfo(p);
             PersonDto dto = new PersonDto(p);
-            dto.setPhones(new PhoneDto(ph).getAll());
-            dto.setAddress(new AddressDto(a));
-            dto.setHobbies(new HobbyDto(hobbies).getAll());
 
             return dto;
 
@@ -191,25 +186,36 @@ public class PersonFacade {
         }
 
     }
-    
-    private List<Hobby> getPersonsHobbies(Person p){
+
+    private Person setPersonInfo(Person p) {
+        List<Phone> ph = getPersonsPhones(p.getId());
+//        Address a = getPersonsAddress(p);
+        List<Hobby> hobbies = getPersonsHobbies(p);
+
+        p.setPhones(ph);
+        p.setHobbies(hobbies);
+//        p.setAddress(a);
+        return p;
+    }
+
+    private List<Hobby> getPersonsHobbies(Person p) {
         EntityManager em = getEntityManager();
-        
+
         TypedQuery q = em.createQuery("SELECT h FROM Hobby h JOIN FETCH h.persons p WHERE p.id = :id", Hobby.class);
         q.setParameter("id", p.getId());
         List<Hobby> h = q.getResultList();
         return h;
     }
 
-    private Address getPersonsAddress(Person p) {
-        EntityManager em = getEntityManager();
-
-        TypedQuery q = em.createQuery("SELECT a FROM Address a JOIN FETCH a.persons p WHERE p.id = :id", Address.class);
-        q.setParameter("id", p.getId());
-        Address a = (Address) q.getSingleResult();
-
-        return a;
-    }
+//    private Address getPersonsAddress(Person p) {
+//        EntityManager em = getEntityManager();
+//
+//        TypedQuery q = em.createQuery("SELECT a FROM Address a JOIN FETCH a.persons p WHERE p.id = :id", Address.class);
+//        q.setParameter("id", p.getId());
+//        Address a = (Address) q.getSingleResult();
+//
+//        return a;
+//    }
 
     private List<Phone> getPersonsPhones(int id) {
         EntityManager em = getEntityManager();

@@ -45,13 +45,6 @@ public class PersonResource {
     }
 
     @GET
-    @Path("/Email/{email}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getPersonByEmail(@PathParam("email") String email) {
-        return Response.ok().entity(GSON.toJson(FACADE.getPersonByEmail(email))).build();
-    }
-
-    @GET
     @Path("/{phoneNumber}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPersonInfoByPhone(@PathParam("phoneNumber") String phoneNumber) {
@@ -67,6 +60,20 @@ public class PersonResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllPersonsWithHobby(@PathParam("hobby") String hobbyName){
         return Response.ok().entity(GSON.toJson(FACADE.getPersonsWithHobby(hobbyName))).build();
+    }
+    
+    @GET
+    @Path("/city/{city}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllPersonsFromCity(@PathParam("city") String city){
+        return Response.ok().entity(GSON.toJson(FACADE.getPersonsFromCity(city))).build();
+    }
+    
+    @GET
+    @Path("/count/{hobby}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getPersonCountOfHobby(@PathParam("hobby") String hobbyName){
+        return "{\"count\":" + FACADE.getPersonCountOfHobby(hobbyName) + "}";
     }
 
     @POST

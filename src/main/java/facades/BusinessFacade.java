@@ -84,11 +84,15 @@ public class BusinessFacade {
         return pf.getPersonsWithHobby(hobbyName);
     }
     
+    public List<PersonDto> getPersonsFromCity(String city){
+        return pf.getPersonsFromCity(city);
+    }
+    
     public PersonDto getPersonInfoByPhone(String phoneNumber) throws PhoneNotFoundException{
         return pf.getPersonInfoByPhone(phoneNumber);
     }
-    public PersonDto getPersonByEmail(String email){
-       return pf.getPersonByEmail(email);
+    public int getPersonCountOfHobby(String hobbyName){
+        return pf.getPersonCountOfHobby(hobbyName);
     }
     public List<PersonDto> getAllPersons(){
         return pf.getAllPersons();
