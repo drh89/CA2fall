@@ -13,11 +13,13 @@ import java.util.logging.Logger;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
+import javax.ws.rs.ext.Provider;
 
 /**
  *
  * @author Dennis
  */
+@Provider
 public class CityInfoNotFoundExceptionMapper implements ExceptionMapper<CityInfoNotFoundException>{
     static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 

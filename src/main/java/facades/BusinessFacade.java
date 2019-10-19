@@ -12,6 +12,8 @@ import dto.PersonDto;
 import entities.Address;
 import entities.CityInfo;
 import entities.Hobby;
+import errorhandling.CityInfoNotFoundException;
+import errorhandling.HobbyNotFoundException;
 import errorhandling.PhoneNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
@@ -80,18 +82,18 @@ public class BusinessFacade {
         return pf.getPerson(id);
     }
     
-    public List<PersonDto> getPersonsWithHobby(String hobbyName){
+    public List<PersonDto> getPersonsWithHobby(String hobbyName) throws HobbyNotFoundException{
         return pf.getPersonsWithHobby(hobbyName);
     }
     
-    public List<PersonDto> getPersonsFromCity(String city){
+    public List<PersonDto> getPersonsFromCity(String city) throws CityInfoNotFoundException{
         return pf.getPersonsFromCity(city);
     }
     
     public PersonDto getPersonInfoByPhone(String phoneNumber) throws PhoneNotFoundException{
         return pf.getPersonInfoByPhone(phoneNumber);
     }
-    public int getPersonCountOfHobby(String hobbyName){
+    public int getPersonCountOfHobby(String hobbyName) throws HobbyNotFoundException{
         return pf.getPersonCountOfHobby(hobbyName);
     }
     public List<PersonDto> getAllPersons(){

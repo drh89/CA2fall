@@ -11,6 +11,7 @@ import entities.Person;
 import entities.Phone;
 import errorhandling.AddressNotFoundException;
 import errorhandling.CityInfoNotFoundException;
+import errorhandling.HobbyNotFoundException;
 import errorhandling.PhoneNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
@@ -145,24 +146,30 @@ public class PersonFacade {
 
         return new PersonDto(person);
     }
-    public int getPersonCountOfHobby(String hobbyName){
+    public int getPersonCountOfHobby(String hobbyName) throws HobbyNotFoundException{
         int count = getPersonsWithHobby(hobbyName).size();
         return count;
     }
-    public List<PersonDto> getPersonsFromCity(String city){
+    public List<PersonDto> getPersonsFromCity(String city) throws CityInfoNotFoundException{
         EntityManager em = getEntityManager();
         
         TypedQuery q = em.createQuery("SELECT p FROM Person p JOIN FETCH p.address.cityInfo ci WHERE ci.city = :city", Person.class);
         q.setParameter("city", city);
         List<Person> p = q.getResultList();
+        if(p.isEmpty()){
+            throw new CityInfoNotFoundException("City does not exist or is not represented");
+        }
         return new PersonDto(p).getAll();
     }
-    public List<PersonDto> getPersonsWithHobby(String hobbyName) {
+    public List<PersonDto> getPersonsWithHobby(String hobbyName) throws HobbyNotFoundException {
         EntityManager em = getEntityManager();
 
         TypedQuery q = em.createQuery("SELECT p FROM Person p JOIN FETCH p.hobbies h WHERE h.name = :name", Person.class);
         q.setParameter("name", hobbyName);
         List<Person> p = q.getResultList();
+        if(p.isEmpty()){
+            throw new HobbyNotFoundException("Hobby does not exist or is not represented");
+        }
         return new PersonDto(p).getAll();
     }
 
@@ -204,6 +211,7 @@ public class PersonFacade {
         TypedQuery q = em.createQuery("SELECT h FROM Hobby h JOIN FETCH h.persons p WHERE p.id = :id", Hobby.class);
         q.setParameter("id", p.getId());
         List<Hobby> h = q.getResultList();
+        
         return h;
     }
 
