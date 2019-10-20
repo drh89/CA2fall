@@ -1,12 +1,21 @@
 package facades;
 
+import dto.AddressDto;
+import dto.CityInfoDto;
+import dto.HobbyDto;
+import dto.PersonDto;
+import dto.PhoneDto;
+import entities.Person;
 import utils.EMF_Creator;
 import entities.RenameMe;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -21,6 +30,7 @@ public class PersonFacadeTest {
 
     private static EntityManagerFactory emf;
     private static PersonFacade facade;
+    private static List<Person> persons;
 
     public PersonFacadeTest() {
     }
@@ -77,8 +87,8 @@ public class PersonFacadeTest {
 
     // TODO: Delete or change this method 
     @Test
-    public void testAFacadeMethod() {
-        assertEquals(2, facade.getRenameMeCount(), "Expects two rows in the database");
+    public void getAllPersons() {
+        List<PersonDto> persons = facade.getAllPersons();
+        assertEquals(0, persons.size());
     }
-
 }
