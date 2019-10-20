@@ -93,7 +93,7 @@ public class BusinessFacade {
     public PersonDto getPersonInfoByPhone(String phoneNumber) throws PhoneNotFoundException{
         return pf.getPersonInfoByPhone(phoneNumber);
     }
-    public int getPersonCountOfHobby(String hobbyName) throws HobbyNotFoundException{
+    public String getPersonCountOfHobby(String hobbyName) throws HobbyNotFoundException{
         return pf.getPersonCountOfHobby(hobbyName);
     }
     public List<PersonDto> getAllPersons(){

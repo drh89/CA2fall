@@ -146,9 +146,9 @@ public class PersonFacade {
 
         return new PersonDto(person);
     }
-    public int getPersonCountOfHobby(String hobbyName) throws HobbyNotFoundException{
+    public String getPersonCountOfHobby(String hobbyName) throws HobbyNotFoundException{
         int count = getPersonsWithHobby(hobbyName).size();
-        return count;
+        return count + "";
     }
     public List<PersonDto> getPersonsFromCity(String city) throws CityInfoNotFoundException{
         EntityManager em = getEntityManager();

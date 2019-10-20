@@ -76,9 +76,9 @@ public class PersonResource {
     @GET
     @Path("/count/{hobby}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getPersonCountOfHobby(@PathParam("hobby") String hobbyName) throws HobbyNotFoundException{
+    public Response getPersonCountOfHobby(@PathParam("hobby") String hobbyName) throws HobbyNotFoundException{
         
-            return "{\"count\":" + FACADE.getPersonCountOfHobby(hobbyName) + "}";
+            return Response.ok().entity(GSON.toJson(FACADE.getPersonCountOfHobby(hobbyName))).build();
         
     }
 
