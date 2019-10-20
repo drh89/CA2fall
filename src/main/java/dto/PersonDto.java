@@ -44,6 +44,7 @@ public class PersonDto {
 
     }
 
+
     public PersonDto(Person p) {
         this.id = p.getId();
         this.email = p.getEmail();
@@ -51,7 +52,7 @@ public class PersonDto {
         this.lastName = p.getLastName();
         this.hobbies = new HobbyDto(p.getHobbies()).getAll();
         this.phones = new PhoneDto(p.getPhones()).getAll();
-        this.address = new AddressDto( p.getAddress());
+//        this.address = new AddressDto( p.getAddress());
     }
 
     public PersonDto(List<Person> p) {

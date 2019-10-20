@@ -57,7 +57,7 @@ public class Person implements Serializable {
     @OneToMany(mappedBy = "person", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private List<Phone> phones;
 
-    @ManyToOne(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "addressId")
 
     private Address address;

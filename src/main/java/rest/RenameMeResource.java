@@ -54,19 +54,19 @@ public class RenameMeResource {
 
     public static void main(String[] args) {
         
-//        PersonDto first = new PersonDto("Jens", "Hansen", "test@test.dk", "Football", "Teamsport where you kick to a ball", "22233344", "Jens Hansens Phone", "Hjalmersgade", "22", "2tv", 2200, "Copenhagen");
-//        PersonDto second = new PersonDto("Hanne", "Hansen", "test2@test.dk", "Handball", "Teamsport where you throw a ball", "28833344", "Hanne Hansens Phone", "Hjalmersgade", "22", "2tv", 2200, "Copenhagen");
-//        PersonDto third = new PersonDto("Bjarne", "Lund", "test3@test.dk", "Football", "Teamsport where you kick to a ball", "66233344", "Bjarne Lunds Phone", "Lortegade", "232", "3tv", 2200, "Copenhagen");
-//        System.out.println(FACADE.addPerson(first));
-//        System.out.println(FACADE.addPerson(second));
-//        System.out.println(FACADE.addPerson(third));
+        PersonDto first = new PersonDto("Jens", "Hansen", "test@test.dk", "Football", "Teamsport where you kick to a ball", "22233344", "Jens Hansens Phone", "Hjalmersgade", "22", "2tv", 2200, "Copenhagen");
+        PersonDto second = new PersonDto("Hanne", "Hansen", "test2@test.dk", "Handball", "Teamsport where you throw a ball", "28833344", "Hanne Hansens Phone", "Hjalmersgade", "22", "2tv", 2200, "Copenhagen");
+        PersonDto third = new PersonDto("Bjarne", "Lund", "test3@test.dk", "Football", "Teamsport where you kick to a ball", "66233344", "Bjarne Lunds Phone", "Lortegade", "232", "3tv", 2200, "Copenhagen");
+        System.out.println(FACADE.addPerson(first));
+        System.out.println(FACADE.addPerson(second));
+        System.out.println(FACADE.addPerson(third));
         
-            try{
-                PersonDto p = FACADE.getPersonInfoByPhone("28833344");
-                System.out.println(p.getPhones().get(0).getNumber());
-            }catch(PhoneNotFoundException ex){
-                System.out.println(ex.getMessage());
-            }
+//            try{
+//                PersonDto p = FACADE.getPersonInfoByPhone("28833344");
+//                System.out.println(p.getPhones().get(0).getNumber());
+//            }catch(PhoneNotFoundException ex){
+//                System.out.println(ex.getMessage());
+//            }
            
             
         

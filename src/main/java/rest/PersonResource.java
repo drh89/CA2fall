@@ -42,7 +42,7 @@ public class PersonResource {
     @GET
     @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllPersons(@PathParam("number") String number) {
+    public Response getAllPersons() {
         return Response.ok().entity(GSON.toJson(FACADE.getAllPersons())).build();
     }
 
