@@ -8,6 +8,7 @@ import dto.PhoneDto;
 import entities.Person;
 import utils.EMF_Creator;
 import entities.RenameMe;
+import errorhandling.PhoneNotFoundException;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -90,5 +91,21 @@ public class PersonFacadeTest {
     public void getAllPersons() {
         List<PersonDto> persons = facade.getAllPersons();
         assertEquals(0, persons.size());
+    }
+    
+    @Test
+    public void getPersonById() {
+        PersonDto person = facade.getPerson(1);
+        assertNotNull(person);
+    }
+    
+    @Test
+    public void updatePerson() throws PhoneNotFoundException {
+        PersonDto pBefore = facade.getPersonInfoByPhone("12345678");
+        String newValue = "Karl Oskar";
+        pBefore.setFirstName(newValue);
+        PersonDto test = facade.editPerson(pBefore);
+        PersonDto pAfter = facade.getPersonInfoByPhone("12345678");
+        assertEquals(pBefore.getFirstName(), pAfter.getFirstName());
     }
 }
