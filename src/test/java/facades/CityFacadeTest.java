@@ -29,8 +29,7 @@ import utils.EMF_Creator.Strategy;
 public class CityFacadeTest {
 
     private static EntityManagerFactory emf;
-    private static PersonFacade facade;
-    private static List<Person> persons;
+    private static CityInfoFacade facade;
 
     public CityFacadeTest() {
     }
@@ -43,7 +42,7 @@ public class CityFacadeTest {
                 "dev",
                 "ax2",
                 EMF_Creator.Strategy.CREATE);
-        facade = PersonFacade.getFacadeExample(emf);
+        facade = CityInfoFacade.getFacadeExample(emf);
     }
 
     /*   **** HINT **** 
@@ -55,7 +54,7 @@ public class CityFacadeTest {
     @BeforeAll
     public static void setUpClassV2() {
        emf = EMF_Creator.createEntityManagerFactory(DbSelector.TEST,Strategy.DROP_AND_CREATE);
-       facade = PersonFacade.getFacadeExample(emf);
+       facade = CityInfoFacade.getFacadeExample(emf);
     }
 
     @AfterAll
