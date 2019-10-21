@@ -102,52 +102,52 @@ public class BusinessFacade {
     public PersonDto deletePerson(int id) {
         return pf.deletePerson(id);
     }
-
-    public List<Address> getAllAddress() {
-        return af.getAllAddress();
-    }
-
-    public Address addAddress(Address a) {
-        return af.addAddress(a);
-    }
-
-    public Address editAddress(Address a) {
-        return af.editAddress(a);
-    }
-
-    public Address deleteAddress(int id) {
-        return af.deleteAddress(id);
-    }
-
-    public List<CityInfo> getAllCityInfos() {
-        return cif.getAllCityInfos();
-    }
-
-    public CityInfo addCityInfo(CityInfo ci) {
-        return cif.addCity(ci);
-    }
-
-    public CityInfo ediCityInfo(CityInfo ci) {
-        return cif.editCityInfo(ci);
-    }
-
-    public CityInfo deleteCityInfo(int id) {
-        return cif.deleteCity(id);
-    }
-
-    public List<Hobby> getAllHobbies() {
-        return hf.getAllHobbies();
-    }
-
-    public Hobby addHobby(Hobby h) {
-        return hf.addHobby(h);
-    }
-
-    public Hobby editHobby(Hobby h) {
-        return hf.editHobby(h);
-    }
-
-    public Hobby deleteHobby(int id) {
-        return hf.deleteHobby(id);
-    }
+//
+//    public List<Address> getAllAddress() {
+//        return af.getAllAddress();
+//    }
+//
+//    public Address addAddress(Address a) {
+//        return af.addAddress(a);
+//    }
+//
+//    public Address editAddress(Address a) {
+//        return af.editAddress(a);
+//    }
+//
+//    public Address deleteAddress(int id) {
+//        return af.deleteAddress(id);
+//    }
+//
+//    public List<CityInfo> getAllCityInfos() {
+//        return cif.getAllCityInfos();
+//    }
+//
+//    public CityInfo addCityInfo(CityInfo ci) {
+//        return cif.addCity(ci);
+//    }
+//
+//    public CityInfo ediCityInfo(CityInfo ci) {
+//        return cif.editCityInfo(ci);
+//    }
+//
+//    public CityInfo deleteCityInfo(int id) {
+//        return cif.deleteCity(id);
+//    }
+//
+//    public List<Hobby> getAllHobbies() {
+//        return hf.getAllHobbies();
+//    }
+//
+//    public Hobby addHobby(Hobby h) {
+//        return hf.addHobby(h);
+//    }
+//
+//    public Hobby editHobby(Hobby h) {
+//        return hf.editHobby(h);
+//    }
+//
+//    public Hobby deleteHobby(int id) {
+//        return hf.deleteHobby(id);
+//    }
 }
