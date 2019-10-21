@@ -94,7 +94,7 @@ public class PersonFacade {
         em.persist(person);
         em.getTransaction().commit();
         em.close();
-        return new PersonDto(person);
+        return new PersonDto(person.getId(),person.getFirstName(),person.getLastName(),person.getEmail());
     }
 
     public PersonDto editPerson(PersonDto p) {
@@ -196,12 +196,12 @@ public class PersonFacade {
 
     private Person setPersonInfo(Person p) {
         List<Phone> ph = getPersonsPhones(p.getId());
-//        Address a = getPersonsAddress(p);
+        Address a = getPersonsAddress(p);
         List<Hobby> hobbies = getPersonsHobbies(p);
 
         p.setPhones(ph);
         p.setHobbies(hobbies);
-//        p.setAddress(a);
+        p.setAddress(a);
         return p;
     }
 
@@ -215,15 +215,15 @@ public class PersonFacade {
         return h;
     }
 
-//    private Address getPersonsAddress(Person p) {
-//        EntityManager em = getEntityManager();
-//
-//        TypedQuery q = em.createQuery("SELECT a FROM Address a JOIN FETCH a.persons p WHERE p.id = :id", Address.class);
-//        q.setParameter("id", p.getId());
-//        Address a = (Address) q.getSingleResult();
-//
-//        return a;
-//    }
+    private Address getPersonsAddress(Person p) {
+        EntityManager em = getEntityManager();
+
+        TypedQuery q = em.createQuery("SELECT a FROM Address a JOIN FETCH a.persons p WHERE p.id = :id", Address.class);
+        q.setParameter("id", p.getId());
+        Address a = (Address) q.getSingleResult();
+
+        return a;
+    }
 
     private List<Phone> getPersonsPhones(int id) {
         EntityManager em = getEntityManager();
@@ -298,4 +298,6 @@ public class PersonFacade {
         return (Address) tq.getSingleResult();
 
     }
+    
+    
 }

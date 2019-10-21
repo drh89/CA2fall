@@ -2,9 +2,11 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import dto.HobbyDto;
 import dto.PersonDto;
 import entities.Address;
 import entities.CityInfo;
+import entities.Hobby;
 import entities.Person;
 import entities.Phone;
 import entities.RenameMe;
@@ -57,6 +59,8 @@ public class RenameMeResource {
         PersonDto first = new PersonDto("Jens", "Hansen", "test@test.dk", "Football", "Teamsport where you kick to a ball", "22233344", "Jens Hansens Phone", "Hjalmersgade", "22", "2tv", 2200, "Copenhagen");
         PersonDto second = new PersonDto("Hanne", "Hansen", "test2@test.dk", "Handball", "Teamsport where you throw a ball", "28833344", "Hanne Hansens Phone", "Hjalmersgade", "22", "2tv", 2200, "Copenhagen");
         PersonDto third = new PersonDto("Bjarne", "Lund", "test3@test.dk", "Football", "Teamsport where you kick to a ball", "66233344", "Bjarne Lunds Phone", "Lortegade", "232", "3tv", 2200, "Copenhagen");
+        first.getHobbies().add(new HobbyDto(new Hobby("Curling", "Boring game")));
+        second.getHobbies().add(new HobbyDto(new Hobby("Running", "Cardio training")));
         System.out.println(FACADE.addPerson(first));
         System.out.println(FACADE.addPerson(second));
         System.out.println(FACADE.addPerson(third));
